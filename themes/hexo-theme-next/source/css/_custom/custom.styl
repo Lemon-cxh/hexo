@@ -1,0 +1,27 @@
+//自定义回到顶部样式
+.back-to-top {
+  left: 60px;
+  width: 70px;  //图片素材宽度
+  height: 900px;  //图片素材高度
+  top: -900px;
+  bottom: unset;
+  transition: all .5s ease-in-out;
+  background: url("/images/scroll.png");
+
+  //阅读百分比
+  > span {
+    position: absolute;
+    top: 775px;
+    left: 42px;
+  }
+
+  &.back-to-top-on {
+    bottom: unset;
+    top: 100vh < (900px + 200px) ? calc( 100vh - 900px - 200px ) : 0px;
+  }
+}
+
+//修改不蒜子数据颜色
+.busuanzi-value {
+  color: #1890ff;
+}
