@@ -1,18 +1,16 @@
-//自定义回到顶部样式
+// 自定义回到顶部样式
 .back-to-top {
   left: 60px;
-  width: 70px;  //图片素材宽度
-  height: 900px;  //图片素材高度
+  width: 70px;
+  height: 900px;
   top: -900px;
   bottom: unset;
   transition: all .5s ease-in-out;
   background: url("/images/scroll.png");
 
-  //阅读百分比
+  // 阅读百分比
   > span {
-    position: absolute;
-    top: 775px;
-    left: 42px;
+    display: none;
   }
 
   &.back-to-top-on {
@@ -21,7 +19,68 @@
   }
 }
 
-//修改不蒜子数据颜色
+// 修改不蒜子数据颜色
 .busuanzi-value {
   color: #1890ff;
+}
+
+// 顶部阅读进度条
+.top-scroll-bar {
+  position: fixed;
+  height: 3px;
+  top: 0;
+  left: 0;
+  transition-duration: 0.7s,0.7s;
+  transiton-property: width,background;
+  z-index: 99999;
+  display: none;
+  background: #1890ff;
+}
+
+// 侧边滚动条
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+//滚动槽
+::-webkit-scrollbar-track {
+  background: #eee;
+}
+//滚动条滑块
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #ccc;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(247, 149, 51);
+}
+
+// 窗口波动效果相关样式
+if hexo-config('wobble')  {
+  .sidebar {
+    box-shadow: none;
+  }
+
+  .wobbleTransparentBK{
+    background-color: rgba(0,0,0,0) !important;
+  }
+
+  .wobbleTransparentLine{
+    border-color: rgba(0,0,0,0) !important;
+  }
+
+  // Next.Muse中为Header和Footer添加背景色
+  #header, #footer {
+    background-color: rgb(245, 245, 245);
+  }
+
+  // 防止sidebar和footer同时开启动效时堆叠异常
+  #sidebar, header {
+    z-index: 1 !important;
+  }
+
+  // 防止挡住页末文章的阅读全文按钮
+  .main {
+    padding-bottom: 200px;
+  }
 }

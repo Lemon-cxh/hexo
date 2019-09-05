@@ -1,3 +1,5 @@
+<div class="top-scroll-bar"></div>
+
 <div class="site-brand-container">
   <div class="site-meta{%- if theme.custom_logo %} custom-logo{%- endif %}">
     {%- if theme.custom_logo and theme.scheme === 'Muse' %}
