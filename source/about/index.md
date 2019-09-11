@@ -4,4 +4,10 @@ date: 2019-09-02 14:07:43
 type: "about"
 comments: false
 ---
-<div>Logo通过<a href="https://www.designevo.com/cn/logo-maker/" title="免费在线logo制作软件">DesignEvo</a>设计制作</div>
+**Powered by:**
+ - [Hexo](https://hexo.io): 博客框架
+ - [NexT.scheme](https://theme-next.org): 主题
+ - [DesignEvo](https://www.designevo.com/cn/logo-maker): Logo设计与制作
+ - [Valine](https://valine.js.org): 文章评论系统
+ - [LeanCloud](https://leancloud.cn): 文章阅读数及评论的数据云存储
+ - [不蒜子](https://busuanzi.ibruce.info/): 本站访问量计数器
