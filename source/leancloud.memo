@@ -1,6 +1,5 @@
 [
-{"title":"Docker 中安装 Nginx 以及使用 Logrotate 进行日志轮替","url":"/2019/09/02/docker-nginx/"},
-{"title":"Docker 部署微服务(Cloud-Admin)以及 Docker 参数、命令","url":"/2019/09/05/docker-deploy-springCloud/"},
-{"title":"Docker 部署微服务(Cloud-Admin)以及 Docker 参数、命令","url":"/docker-deploy-springCloud/"},
+{"title":"Docker 部署微服务 (Cloud-Admin) 以及 Docker 参数、命令","url":"/docker-deploy-springCloud/"},
 {"title":"Docker 中安装 Nginx 以及使用 Logrotate 进行日志轮替","url":"/docker-nginx/"},
+{"title":"Jenkins + Gogs 自动化部署","url":"/jenkins-install/"},
 ]
