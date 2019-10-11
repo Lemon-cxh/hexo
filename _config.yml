@@ -13,7 +13,7 @@ timezone: Asia/Shanghai
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://github.com/Lemon-cxh/Lemon-cxh.github.io
+url: https://Lemon-cxh.github.io
 root: /
 permalink: :title/
 permalink_defaults:
@@ -109,3 +109,6 @@ leancloud_counter_security:
     app_key: Y32s7s17bsYNYTOuGmBxgqPf
     username: Lemon
     password: lemon...
+
+sitemap:
+    path: sitemap.xml
