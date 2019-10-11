@@ -100,10 +100,12 @@ docker rm 容器名;docker run ******`。
         npm i node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass
         npm install --registry=https://registry.npm.taobao.org
         npm run build
-        tar -zcf dist.tar.gz *
+        cd dist
+        tar -zcf ../dist.tar.gz *
         ```
         添加`Send files or execute commands over SSH`，`Name`处选择1.2.2配置中配置好的ssh，`Source files`处输入`dist.tar.gz`，`Remote directory`处输入上传的目录，如果1.2.2中有配置`Remote Directory`则会在此目录下。`Exec command`处输入
         ```bash
-        tar -zxf /**/dist.tar.gz
+        rm -rf /**/dist/*
+        tar -zxf /**/dist.tar.gz -C /**/dist
         rm -rf /**/dist.tar.gz
         ```
