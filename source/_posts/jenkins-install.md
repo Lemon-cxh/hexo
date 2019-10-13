@@ -1,6 +1,8 @@
 ---
 title: Jenkins + Gogs 自动化部署
 date: 2019-09-29 16:53:54
+categories: 
+- Jenkins
 tags:
 - Jenkins
 description: 使用Docker运行Jenkins,结合Gogs完成Java和Vue项目的自动化部署
