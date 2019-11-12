@@ -1,5 +1,0 @@
-[
-{"title":"Docker 部署微服务 (Cloud-Admin) 以及 Docker 参数、命令","url":"/docker-deploy-springCloud/"},
-{"title":"Docker 中安装 Nginx 以及使用 Logrotate 进行日志轮替","url":"/docker-nginx/"},
-{"title":"Jenkins + Gogs 自动化部署","url":"/jenkins-install/"},
-]
