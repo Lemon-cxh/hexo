@@ -2,7 +2,7 @@
 title: Docker 中安装 Nginx 以及使用 Logrotate 进行日志轮替
 date: 2019-09-02 14:18:32
 categories: 
-- Docker
+- Nginx
 tags:
 - Docker
 - Nginx

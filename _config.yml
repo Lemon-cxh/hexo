@@ -6,8 +6,8 @@
 title: 三月柳絮四月雨
 subtitle:
 description: 不妨不妨，来日方长
-keywords:
-author: Lemon
+keywords: 博客
+author: 三月柳絮四月雨
 language: zh-CN
 timezone: Asia/Shanghai
 
@@ -112,3 +112,5 @@ leancloud_counter_security:
 
 sitemap:
     path: sitemap.xml
+baidusitemap:
+  path: baidusitemap.xml
