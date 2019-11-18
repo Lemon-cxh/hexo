@@ -44,7 +44,14 @@ description: 我们要实现数据加密，进入数据库的字段不能是真�
         @Inherited
         @Target({ ElementType.FIELD })
         @Retention(RetentionPolicy.RUNTIME)
-        public @interface EncryptDecryptField {}
+        public @interface EncryptDecryptField {
+
+            /**
+            * 字段是否使用,分割符号拼接而成(SQL查询使用GROUP_CONCAT)
+            * @return boolean
+            */
+            boolean split() default false;
+        }
         ```
 
     2. ##### 自定义参数处理拦截器
@@ -106,17 +113,7 @@ description: 我们要实现数据加密，进入数据库的字段不能是真�
                     return null;
                 }
                 if (result instanceof List) {
-                    ArrayList resultList = (ArrayList) result;
-                    if (resultList.isEmpty() || EncryptDecryptUtils.notToDecrypt(resultList.get(0))){
-                        return result;
-                    }
-                    Field[] declaredFields = EncryptDecryptUtils.getFields(resultList.get(0).getClass());
-                    if (ArrayUtils.isEmpty(declaredFields)) {
-                        return result;
-                    }
-                    for (Object o : resultList) {
-                        EncryptDecryptUtils.decrypt(declaredFields, o);
-                    }
+                    EncryptDecryptUtils.fieldListDecrypt(result);
                 }else if(EncryptDecryptUtils.notToDecrypt(result)) {
                     EncryptDecryptUtils.decrypt(EncryptDecryptUtils.getFields(result.getClass()), result);
                 }
@@ -153,25 +150,6 @@ description: 我们要实现数据加密，进入数据库的字段不能是真�
                 }
             }
 
-
-            /**
-            * 单个field加密方法
-            *
-            * @param field 字段
-            * @param parameterObject 类
-            * @return T
-            * @throws IllegalAccessException IllegalAccessException
-            */
-            public static <T> void encrypt(Field field, T parameterObject) throws IllegalAccessException {
-                field.setAccessible(true);
-                Object object = field.get(parameterObject);
-                if (object instanceof String) {
-                    //TODO 定制String类型的加密算法
-                    // String value = (String) object;
-                    // field.set(parameterObject, value + "000");
-                }
-            }
-
             /**
             * 多个field解密方法
             *
@@ -187,20 +165,48 @@ description: 我们要实现数据加密，进入数据库的字段不能是真�
             }
 
             /**
+            * 单个field加密方法
+            *
+            * @param field 字段
+            * @param parameterObject 类
+            * @return T
+            * @throws IllegalAccessException IllegalAccessException
+            */
+            private static <T> void encrypt(Field field, T parameterObject) throws IllegalAccessException {
+                field.setAccessible(true);
+                Object object = field.get(parameterObject);
+                if (object instanceof String) {
+                    field.set(parameterObject, AESUtil.encrypt((String)object));
+                }
+            }
+
+            /**
             * 单个field解密方法
             *
             * @param field 字段
             * @param result 结果
             * @throws IllegalAccessException IllegalAccessException
             */
-            public static void decrypt(Field field, Object result) throws IllegalAccessException {
+            private static void decrypt(Field field, Object result) throws IllegalAccessException {
                 fieldObjectDecrypt(field, result);
                 field.setAccessible(true);
                 Object object = field.get(result);
+                if (Objects.isNull(object)) {
+                    return;
+                }
                 if (object instanceof String) {
-                    //TODO 定制String类型的加密算法
-                    String value = (String) object;
-                    field.set(result, value.replace("000", ""));
+                    EncryptDecryptField decryptField = field.getAnnotation(EncryptDecryptField.class);
+                    if (!decryptField.split()) {
+                        field.set(result, AESUtil.decrypt((String)object));
+                        return;
+                    }
+                    String[] strings = ((String) object).split(",");
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0, length = strings.length - 1; i < length; i++) {
+                        stringBuilder.append(AESUtil.decrypt(strings[i])).append(",");
+                    }
+                    stringBuilder.append(AESUtil.decrypt(strings[strings.length - 1]));
+                    field.set(result, stringBuilder.toString());
                 }
             }
 
@@ -221,22 +227,54 @@ description: 我们要实现数据加密，进入数据库的字段不能是真�
             * @return 字段
             */
             public static Field[] getFields(Class<?> objectClass) {
-                return Arrays.stream(objectClass.getDeclaredFields())
+                Field[] fields = Arrays.stream(objectClass.getDeclaredFields())
                         .filter(field -> Objects.nonNull(field.getAnnotation(EncryptDecryptField.class)))
                         .toArray(Field[]::new);
+                Class<?> superClass = objectClass.getSuperclass();
+                if (Object.class == superClass) {
+                    return fields;
+                }
+                return ArrayUtils.addAll(fields, Arrays.stream(superClass.getDeclaredFields())
+                        .filter(field -> Objects.nonNull(field.getAnnotation(EncryptDecryptField.class)))
+                        .toArray(Field[]::new));
             }
 
             /**
             * 字段对象的解密
             * @param field 字段
-            * @param result 结果
+            * @param result 数据
             * @throws IllegalAccessException IllegalAccessException
             */
             private static void fieldObjectDecrypt(Field field, Object result) throws IllegalAccessException {
-                Class<?> objectClass = field.getClass();
+                field.setAccessible(true);
+                Object object = field.get(result);
+                if (object instanceof List) {
+                    fieldListDecrypt(object);
+                    return;
+                }
+                Class<?> objectClass = field.getType();
                 EncryptDecryptClass encryptDecryptClass = objectClass.getAnnotation(EncryptDecryptClass.class);
                 if (Objects.nonNull(encryptDecryptClass)) {
-                    decrypt(getFields(objectClass), result);
+                    decrypt(getFields(objectClass), field.get(result));
+                }
+            }
+
+            /**
+            * 字段集合的解密
+            * @param object 集合数据
+            * @throws IllegalAccessException IllegalAccessException
+            */
+            public static void fieldListDecrypt(Object object) throws IllegalAccessException {
+                ArrayList resultList = (ArrayList) object;
+                if (resultList.isEmpty() || EncryptDecryptUtils.notToDecrypt(resultList.get(0))){
+                    return;
+                }
+                Field[] declaredFields = EncryptDecryptUtils.getFields(resultList.get(0).getClass());
+                if (ArrayUtils.isEmpty(declaredFields)) {
+                    return;
+                }
+                for (Object o : resultList) {
+                    decrypt(declaredFields, o);
                 }
             }
 
