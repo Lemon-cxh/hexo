@@ -7,7 +7,9 @@ tags:
 - Mybatis
 description: 我们要实现数据加密，进入数据库的字段不能是真实的数据，但是返回来的数据要真实可用，所以我们需要实现自定义的拦截器
 ---
-> 原文链接：[Fraser Yu：Mybatis拦截器之数据加密解密](http://www.spring4all.com/article/15081)
+<blockquote class="blockquote-center">
+    <p id="hitokoto"></p>
+</blockquote>
 
 1. #### 拦截器介绍
     
@@ -281,3 +283,5 @@ description: 我们要实现数据加密，进入数据库的字段不能是真�
             private EncryptDecryptUtils() {}
         }
         ```
+
+> 原文链接：[Fraser Yu：Mybatis拦截器之数据加密解密](http://www.spring4all.com/article/15081)

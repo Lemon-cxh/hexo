@@ -7,6 +7,9 @@ tags:
 - Jenkins
 description: 使用Docker运行Jenkins,结合Gogs完成Java和Vue项目的自动化部署
 ---
+<blockquote class="blockquote-center">
+    <p id="hitokoto"></p>
+</blockquote>
 > 使用Docker运行Jenkins,结合Gogs完成Java和Vue项目的自动化部署
 > Docker的安装可以参考{% post_link docker-deploy-springCloud %}
 

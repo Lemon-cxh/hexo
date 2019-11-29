@@ -1,4 +1,5 @@
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
 {# 页脚站点运行时间统计 #}
 {% if theme.footer.ages.enable %}
   <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
