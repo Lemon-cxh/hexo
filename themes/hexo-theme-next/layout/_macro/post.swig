@@ -171,10 +171,6 @@
       </header>
     {%- endif %}
 
-    <blockquote class="blockquote-center">
-      <p id="hitokoto"></p>
-    </blockquote>
-
     {#################}
     {### POST BODY ###}
     {#################}
@@ -219,9 +215,15 @@
           {%- endif %}
           <!--/noindex-->
         {% else %}
+          <blockquote class="blockquote-center">
+            <p id="hitokoto"></p>
+          </blockquote>
           {{ post.content }}
         {%- endif %}
       {% else %}
+        <blockquote class="blockquote-center">
+          <p id="hitokoto"></p>
+        </blockquote>
         {{ post.content }}
       {%- endif %}
     </div>
