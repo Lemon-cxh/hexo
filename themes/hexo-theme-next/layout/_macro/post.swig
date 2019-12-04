@@ -171,6 +171,10 @@
       </header>
     {%- endif %}
 
+    <blockquote class="blockquote-center">
+      <p id="hitokoto"></p>
+    </blockquote>
+
     {#################}
     {### POST BODY ###}
     {#################}

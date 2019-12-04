@@ -7,10 +7,6 @@ tags:
 - SpringCloud
 description: Spring Cloud Gateway中的全局异常处理不能直接用@ControllerAdvice来处理，所以需要自定义异常处理
 ---
-<blockquote class="blockquote-center">
-    <p id="hitokoto"></p>
-</blockquote>
-
 > 网关都是给接口做代理转发的，后端对应的都是REST API，返回数据格式都是JSON。如果不做处理，当发生异常时，Gateway默认给出的错误信息是页面，不方便前端进行异常处理。Spring Cloud Gateway中的全局异常处理不能直接用@ControllerAdvice来处理，需要自定义异常处理。
 
 1. #### 自定义异常处理逻辑

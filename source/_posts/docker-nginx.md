@@ -8,9 +8,6 @@ tags:
 - Nginx
 description: 在Docker中运行Nginx以及使用 Logrotate 进行日志轮替
 ---
-<blockquote class="blockquote-center">
-    <p id="hitokoto"></p>
-</blockquote>
 1. ## 安装nginx
     docker 的安装可以参考{% post_link docker-deploy-springCloud %}
     1. ### 获取镜像

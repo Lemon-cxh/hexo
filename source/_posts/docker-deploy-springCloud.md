@@ -8,9 +8,6 @@ tags:
 - SpringCloud
 description: Docker 的安装、参数、命令以及部署微服务
 ---
-<blockquote class="blockquote-center">
-    <p id="hitokoto"></p>
-</blockquote>
 1. ## Docker的安装
 
     1. ### 卸载旧版本
