@@ -59,12 +59,12 @@ description: 使用Docker运行Jenkins,结合Gogs完成Java和Vue项目的自动
     1. 新建任务 -> 输入名称 -> 构建一个maven项目 -> 确定 -> 输入源码管理基本信息(不再详细说明)。
     
     2. 构建触发器
-        勾选`Generic Webhook Trigger`，`Variable`处输入`repositoryName`,`Expression`处输入`$.repository.name`，勾选`JSONPath`。
-        点击新增再添加两个`Variable`和`Expression`，分别为:`ref`，`$.ref`和`commits`，`$.commits`，勾选`JSONPath`。
+        勾选`Generic Webhook Trigger`，`Variable`处输入`repositoryName`,`Expression`处输入`$.repository.name`,`Value filter`处输入`[\s\[\]"]`,勾选`JSONPath`。
+        点击新增再添加两个`Variable`,`Expression`和`Value filter`，分别为:`ref`,`$.ref`,`[\s\[\]"]`和`commits`,`$.commits`,`[\s\[\]"]`勾选`JSONPath`。
         `Token`中输入令牌。
 
     3. Optional filter
-        `Expression`处输入`^(你的仓库名)-(refs/heads/release)-([\s\S]*指定的模块路径[\s\S]*)$`，`Text`处输入`$repositoryName-$ref-$commits`。
+        `Expression`处输入`^你的仓库名-refs/heads/release-[\S]*指定的模块路径/`，`Text`处输入`$repositoryName-$ref-$commits`。
 
     4. Pre Steps
         添加`调用顶层Maven目标`，选择自动安装的maven，`目标`处输入`clean install`。
