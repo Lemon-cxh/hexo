@@ -1,0 +1,34 @@
+---
+title: 常用软件工具
+date: 2020-02-29 14:41:18
+categories: 
+- Tool
+tags:
+- Tool
+description: 常用软件工具以及IDEA插件
+---
+##### 日常工具
+
+- [IDM](http://www.internetdownloadmanager.com/):下载工具
+- [CCleaner](https://www.ccleaner.com/):清理工具
+- [Everything](https://www.voidtools.com/zh-cn/):基于名称快速定位文件和文件夹
+- [Wox](https://github.com/Wox-launcher/Wox/releases):配合Everything使用
+- [PotPlayer](https://potplayer.daum.net/?lang=zh_CN):播放软件
+- [Honeyview](https://www.bandisoft.com/honeyview/):图片查看
+- [Bandizip](https://www.bandisoft.com/bandizip/):解压工具
+- [Revo Uninstaller Pro](https://www.revouninstaller.com/products/revo-uninstaller-pro/):卸载软件工具
+- [Dism++](http://www.chuyu.me/zh-Hans/index.html):Windows工具
+- [RevokeMsgPatcher](https://github.com/huiyadanli/RevokeMsgPatcher):防撤回工具
+- [FinalShell](http://www.hostbuf.com/):SSH工具
+
+##### IDEA plugins
+
+- [Alibaba Java Coding Guidelines](https://plugins.jetbrains.com/plugin/10046-alibaba-java-coding-guidelines):Alibaba编码准则
+- [SonarLint](https://plugins.jetbrains.com/plugin/7973-sonarlint):代码检测和修复质量问题
+- [Free MyBatis plugin](https://plugins.jetbrains.com/plugin/8321-free-mybatis-plugin):增强IDEA对MyBatis支持的插件
+- [Maven Helper](https://plugins.jetbrains.com/plugin/7179-maven-helper):使用Maven必要的插件
+- [Lombok](https://plugins.jetbrains.com/plugin/6317-lombok):提供对Lombok注解的支持
+- [FindBugs-IDEA](https://plugins.jetbrains.com/plugin/3847-findbugs-idea):Java的缺陷检测工具
+- [activate-power-mode](https://plugins.jetbrains.com/plugin/8330-activate-power-mode/):打字特效
+- [Nord](https://plugins.jetbrains.com/plugin/10321-nord):我喜欢的一款主题
+- [你可能会需要的Jetbrains工具](https://zhile.io/2018/08/25/jetbrains-license-server-crack.html)
