@@ -13,13 +13,15 @@ description: 常用软件工具以及IDEA插件
 - [CCleaner](https://www.ccleaner.com/):清理工具
 - [Everything](https://www.voidtools.com/zh-cn/):基于名称快速定位文件和文件夹
 - [Wox](https://github.com/Wox-launcher/Wox/releases):配合Everything使用
-- [PotPlayer](https://potplayer.daum.net/?lang=zh_CN):播放软件
+- [PotPlayer](https://potplayer.daum.net/?lang=zh_CN):播放视频软件
 - [Honeyview](https://www.bandisoft.com/honeyview/):图片查看
 - [Bandizip](https://www.bandisoft.com/bandizip/):解压工具
 - [Revo Uninstaller Pro](https://www.revouninstaller.com/products/revo-uninstaller-pro/):卸载软件工具
-- [Dism++](http://www.chuyu.me/zh-Hans/index.html):Windows工具
-- [RevokeMsgPatcher](https://github.com/huiyadanli/RevokeMsgPatcher):防撤回工具
+- [Dism++](http://www.chuyu.me/zh-Hans/index.html):Windows实用工具
+- [RevokeMsgPatcher](https://github.com/huiyadanli/RevokeMsgPatcher):微信/QQ/TIM消息防撤回
 - [FinalShell](http://www.hostbuf.com/):SSH工具
+- [安卓投屏](https://lsdy.top/aztp):摸鱼工具，安卓投屏
+- [内网穿透](https://natapp.cn/):内网穿透工具，小程序手机调试
 
 ##### IDEA plugins
 
