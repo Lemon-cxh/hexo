@@ -230,7 +230,7 @@ links_settings:
   layout: block
 
 links:
-  yinwang: http://www.yinwang.org
+  # yinwang: http://www.yinwang.org
 
 # Sidebar Avatar
 avatar:
