@@ -44,12 +44,6 @@ server {
 	}
 	location /api/ {
 		proxy_pass http://容器名:8765/api/;
-	}    
-	error_page 404 /404.html;
-	location = /40x.html {
-	}
-	error_page 500 502 503 504 /50x.html;
-	location = /50x.html {
 	}
 }
 ```
@@ -57,6 +51,8 @@ server {
     6. ### 重新运行镜像
 ```bash
 docker run --name nginx --network spring-net -p 80:80 -d -v /etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro -v /etc/nginx/conf.d:/etc/nginx/conf.d -v /opt/nginx/dist:/opt/nginx/dist -v /etc/localtime:/etc/localtime:ro -v /var/log/nginx:/var/log/nginx nginx
+# 上传文件到liunx：
+> pscp -r E:\**\dist 用户名@服务器地址:/opt/nginx
 ```
 
 2. ## 使用 Logrotate 进行日志轮替

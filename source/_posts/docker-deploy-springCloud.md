@@ -71,27 +71,57 @@ description: Docker 的安装、参数、命令以及部署微服务
     ```
 
     3. ### 运行镜像
-    ```bash
-    //consul
-    docker run -d -p 8500:8500 --name consul --network spring-net consul agent -server -bootstrap-expect=1 -client 0.0.0.0 -ui
 
-    //-bootstrap-expect:指定期望的server节点的数量，并当server节点可用的时候，自动进行bootstrapping
+        1. Consul
 
+            ```bash
+            docker run -d -p 8500:8500 --name consul --network spring-net consul agent -server -bootstrap-expect=1 -client 0.0.0.0 -ui
+            ```
+            `-bootstrap-expect`:指定期望的server节点的数量，并当server节点可用的时候，自动进行bootstrapping
 
-    //rabbitmq
-    docker run -d --name rabbitmq --network spring-net -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 15672:15672 -p 5672:5672  rabbitmq:management
+        2. RabbitMQ
 
+            ```bash
+            docker run -d --name rabbitmq --network spring-net -e RABBITMQ_DEFAULT_USER=username -e RABBITMQ_DEFAULT_PASS=password -p 15672:15672 -p 5672:5672  rabbitmq:management
+            ```
 
-    //redis  需要先配置好/etc/redis.conf
-    //https://raw.githubusercontent.com/antirez/redis/4.0/redis.conf
-    docker run -p 6379:6379 --network spring-net -v /etc/redis/redis.conf:/etc/redis/redis.conf -v /opt/docker/redis:/data  --name redis -d redis redis-server /etc/redis/redis.conf --appendonly yes
+        3. Redis
+ 
+            需要先配置好/etc/redis.conf,可下载[官方配置](http://download.redis.io/redis-stable/redis.conf)。
 
-    //redis-server --appendonly yes : 在容器执行redis-server启动命令，并打开redis持久化配置
+            密码配置:`requirepass password`
 
-    //mysql
-    docker run -d -p 3306:3306 --name mysql --network spring-net -v /etc/mysql/my.cnf:/etc/my.cnf -v /var/log/mysql:/var/log/mysql -v /var/lib/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=ZXWL@1702b mysql:5.7.26
+            远程访问注释`bind 127.0.0.1`即可
+            ```bash
+            docker run -p 6379:6379 --network spring-net -v /etc/redis/redis.conf:/etc/redis/redis.conf -v /opt/docker/redis:/data  --name redis -d redis redis-server /etc/redis/redis.conf --appendonly yes
+            ```
+            `redis-server --appendonly yes`: 在容器执行redis-server启动命令，并打开redis持久化配置
 
-    ```
+        4. MySQL
+
+            ```bash
+            docker run -d -p 3306:3306 --name mysql --network spring-net -v /etc/mysql/my.cnf:/etc/my.cnf -v /var/log/mysql:/var/log/mysql -v /var/lib/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password mysql:5.7.26
+            ```
+            进入MySQL容器
+            ```bash
+            docker exec -it mysql bash
+            ```
+            登录MySQL
+            ```bash
+            mysql -u root -p
+            ```
+            创建远程连接账号
+            ```bash
+            CREATE USER 'username'@'%' IDENTIFIED BY 'password';
+            ```
+            授予权限：privileges为ALL，则授予所有权限，可参考[官方文档](https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html)
+            ```bash
+            GRANT privileges  ON databasename.* TO 'username'@'%';
+            ```
+            刷新授权
+            ```bash
+            flush privileges;
+            ```
 
 3. ## 安装nginx
 
@@ -164,7 +194,7 @@ description: Docker 的安装、参数、命令以及部署微服务
 
     5. ### 运行服务
     ```bash
-    docker run -d -p 8765:8765 --network spring-net --name geteway iot-gateway
+    docker run -d --name geteway -p 8765:8765 --network spring-net -v /var/log/gateway:/var/log/gateway iot-gateway
     ```
 
 5. ## 防火墙开启端口
