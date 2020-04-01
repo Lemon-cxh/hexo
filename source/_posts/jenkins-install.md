@@ -13,35 +13,45 @@ description: 使用Docker运行Jenkins,结合Gogs完成Java和Vue项目的自动
 1. #### 安装以及配置Jenkins
 
     1. ##### 安装Jenkins
-        添加用户
-        ```bash
-        useradd -u 1000 jenkins
-        ```
         新建目录
         ```bash
         mkdir /var/jenkins_home
         ```
         修改所属用户
         ```bash
-        chown jenkins /var/jenkins_home
+        chown 1000 /var/jenkins_home
+        ```
+        没有此ID用户则添加
+        ```bash
+        useradd -u 1000 jenkins
         ```
         运行容器
         ```bash
         docker run -d -i --name jenkins --network docker-net -p 8080:8080 -p 50000:50000 -v /var/jenkins_home:/var/jenkins_home -v /etc/localtime:/etc/localtime:ro jenkins/jenkins:lts
+        # 配置Nginx反向代理可以添加参数
+        --env JENKINS_OPTS="--prefix=/jenkins"
+        # Nginx 配置
+        location /jenkins {
+            proxy_pass http://172.17.0.1:8080;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_redirect  off;
+        }
         ```
-        查看日志 会实时显示日志，其中类似f3f67320f92e4ba6bdecb083a03af92c的一行即为密码
+        查看日志 会实时显示日志，最后会显示其中类似f3f67320f92e4ba6bdecb083a03af92c的一行即为密码
         ```bash
         docker logs -f jenkins
         ```
 
     2. #####  配置Jenkins
-        访问<http://localhost:8080>输入上一步的密码，选择第一种安装插件方式即可，之后会提示`无法连接到Jenkins`。
+        访问<http://localhost:8080>(Nginx反向代理访问<http://localhost/jenkins>)输入上一步的密码，选择第一种安装插件方式即可，
         访问<http://localhost:8080/pluginManager/advanced>找到最底部的Update Site选项，修改URL的https为http。
      
         1. ###### 安装插件
         系统管理 -> 插件管理 -> 可选插件
-        搜索安装`Generic Webhook Trigger Plugin`, `NodeJS Plugin`, `Maven Integration plugin`, `Publish Over SSH`
-
+        搜索安装`Generic Webhook Trigger`, `NodeJS Plugin`, `Maven Integration`, `Publish Over SSH`
+        
         2. ###### 配置
         - 系统管理 -> 系统设置 -> 新增Publish over SSH配置
         ![SSH Servers配置](ssh-config.png)
@@ -103,6 +113,8 @@ description: 使用Docker运行Jenkins,结合Gogs完成Java和Vue项目的自动
         ![构建](build-vue.png)
         命令如下:
         ```bash
+        # node-sass安装失败可以修改package.json："node-sass": "^4.13.0",并设置淘宝镜像
+        # SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass npm install --registry=https://registry.npm.taobao.org
         npm install --registry=https://registry.npm.taobao.org
         npm run build
         cd dist

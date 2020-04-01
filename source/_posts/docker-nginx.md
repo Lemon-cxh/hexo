@@ -31,7 +31,7 @@ docker stop nginx
 ```
 
     5. ### 修改配置文件conf.d下的defalut.conf
-```json
+```conf
 server {
 	listen       80;
 	server_name  localhost;

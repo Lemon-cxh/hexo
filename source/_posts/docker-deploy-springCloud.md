@@ -98,9 +98,36 @@ description: Docker 的安装、参数、命令以及部署微服务
             `redis-server --appendonly yes`: 在容器执行redis-server启动命令，并打开redis持久化配置
 
         4. MySQL
+            先配置好/etc/mysql/my.cnf
+            ```
+            [mysqld]
+            # 添加GROUP BY查询限制
+            sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+            # 拼接最大长度
+            group_concat_max_len = 102400
+            # 字符集
+            character-set-server=utf8mb4
+            collation-server=utf8mb4_unicode_ci
+
+            [mysql]
+            default-character-set = utf8mb4
+
+            [client]
+            default-character-set = utf8mb4
+            ```
+
+            注意服务器时区：
+            修改文件
+            ```bash
+            cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+            ```
+            在centos7中设置时区的命令可以通过 timedatectl 命令来实现
+            ```bash
+            timedatectl set-timezone Asia/Shanghai
+            ```
 
             ```bash
-            docker run -d -p 3306:3306 --name mysql --network spring-net -v /etc/mysql/my.cnf:/etc/my.cnf -v /var/log/mysql:/var/log/mysql -v /var/lib/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=password mysql:5.7.26
+            docker run -d -p 3306:3306 --name mysql --network spring-net -v /etc/mysql/my.cnf:/etc/my.cnf -v /var/log/mysql:/var/log/mysql -v /var/lib/mysql:/var/lib/mysql -v /etc/localtime:/etc/localtime:ro -e MYSQL_ROOT_PASSWORD=password mysql:5.7.26
             ```
             进入MySQL容器
             ```bash
@@ -111,15 +138,15 @@ description: Docker 的安装、参数、命令以及部署微服务
             mysql -u root -p
             ```
             创建远程连接账号
-            ```bash
+            ```sql
             CREATE USER 'username'@'%' IDENTIFIED BY 'password';
             ```
             授予权限：privileges为ALL，则授予所有权限，可参考[官方文档](https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html)
-            ```bash
+            ```sql
             GRANT privileges  ON databasename.* TO 'username'@'%';
             ```
             刷新授权
-            ```bash
+            ```sql
             flush privileges;
             ```
 
@@ -143,7 +170,7 @@ description: Docker 的安装、参数、命令以及部署微服务
     ```
 
     2. ### pom配置
-    ```html
+    ```xml
     <build>
         <finalName>ace-gateway</finalName>
         <plugins>
@@ -169,7 +196,7 @@ description: Docker 的安装、参数、命令以及部署微服务
     ```
 
     3. ### application配置
-    ```bash
+    ```yml
     redis:
         host: ${REDIS_HOST:localhost}
     rabbitmq:
@@ -246,7 +273,7 @@ description: Docker 的安装、参数、命令以及部署微服务
 |--restart="no"|指定容器停止后的重启策略:<br>no：容器退出时不重启<br>on-failure：容器故障退出（返回值非零）时重启<br>always：容器退出时总是重启|
 |--rm=false|指定容器停止后自动删除容器(不支持以docker run -d启动的容器)|
 |--sig-proxy=true|设置由代理接受并处理信号，但是SIGCHLD、SIGSTOP和SIGKILL不能被代理|
-|--log-opt max-size=10m --log-opt max-file=1|限制生成的json.log单个文件大小和保留文件个数<br>或者配置 Dockerd 的配置：编辑/etc/docker/daemon.json<br>添加{ "log-opts": {"max-size":"10m", "max-file":"3"} }<br>加载配置文件:systemctl daemon-reload重启:systemctl restart docker|
+|--log-opt max-size=10m --log-opt max-file=1|限制生成的json.log单个文件大小和保留文件个数<br>或者配置 Dockerd 的配置：编辑/etc/docker/daemon.json<br>添加{ "log-opts": { "max-size": "10m", "max-file":"5" } }<br>加载配置文件:systemctl daemon-reload重启:systemctl restart docker|
 
 | 命令 |描述  |
 |--|--|
