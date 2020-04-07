@@ -5,7 +5,7 @@ categories:
 - Tool
 tags:
 - Tool
-description: 常用软件工具以及IDEA插件
+description: 常用软件工具以及IDEA和VS Code插件
 ---
 ##### 日常工具
 
@@ -21,7 +21,7 @@ description: 常用软件工具以及IDEA插件
 - [RevokeMsgPatcher](https://github.com/huiyadanli/RevokeMsgPatcher):微信/QQ/TIM消息防撤回
 - [FinalShell](http://www.hostbuf.com/):SSH工具
 - [安卓投屏](https://lsdy.top/aztp):摸鱼工具，安卓投屏
-- [内网穿透](https://natapp.cn/):内网穿透工具，小程序手机调试
+- [PanDownload](https://pandownload.com/):网盘下载工具
 
 ##### IDEA plugins
 
@@ -34,3 +34,15 @@ description: 常用软件工具以及IDEA插件
 - [activate-power-mode](https://plugins.jetbrains.com/plugin/8330-activate-power-mode/):打字特效
 - [Nord](https://plugins.jetbrains.com/plugin/10321-nord):我喜欢的一款主题
 - [你可能会需要的Jetbrains工具](https://zhile.io/2018/08/25/jetbrains-license-server-crack.html)
+
+##### VS Code plugins
+
+- `Chinese (Simplified) Language Pack for Visual Studio Code`:适用于VS Code的中文（简体）语言包
+- `Git History`:Git历史记录
+- `Auto Close Tag`:自动结束标签
+- `Auto Rename Tag`:自动修改标签名
+- `Rainbow Brackets`:彩虹色括号
+- `Power Mode`:打字特效
+- `Settings Sync`:VS Code配置同步
+- `Vetur`:VS Code的Vue工具
+- `Nord`:我喜欢的一款主题
