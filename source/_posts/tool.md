@@ -23,6 +23,26 @@ description: 常用软件工具以及IDEA和VS Code插件
 - [安卓投屏](https://lsdy.top/aztp):摸鱼工具，安卓投屏
 - [PanDownload](https://pandownload.com/):网盘下载工具
 
+##### Chrome 扩展程序
+- [Adblock Plus - 免费的广告拦截器](https://chrome.google.com/webstore/detail/adblock-plus-free-ad-bloc/cfhdojbkjhnklbpkdaibdccddilifddb)
+- [Ghostery – 隐私广告拦截工具](https://chrome.google.com/webstore/detail/ghostery-%E2%80%93-privacy-ad-blo/mlomiejdfkolichcflejclcbmpeaniij)
+- [Dark Reader](https://chrome.google.com/webstore/detail/dark-reader/eimadpbcbfnmbkopoojfekhnkhdbieeh)
+- [Google 翻译](https://chrome.google.com/webstore/detail/google-translate/aapbdbdomjkkjkaonfhkkikfgjllcleb)
+- [沙拉查词-聚合词典划词翻译](https://chrome.google.com/webstore/detail/%E6%B2%99%E6%8B%89%E6%9F%A5%E8%AF%8D-%E8%81%9A%E5%90%88%E8%AF%8D%E5%85%B8%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/cdonnmffkdaoajfknoeeecmchibpmkmg)
+- [JSON Viewer](https://chrome.google.com/webstore/detail/json-viewer/gbmdgpbipfallnflgajpaliibnhdgobh)
+- [Octotree](https://chrome.google.com/webstore/detail/octotree/bkhaagjahfmjljalopjnoealnfndnagc)
+- [smartUp手势](https://chrome.google.com/webstore/detail/smartup-gestures/bgjfekefhjemchdeigphccilhncnjldn)
+- [几枝](https://chrome.google.com/webstore/detail/%E5%87%A0%E6%9E%9D/hfohpokminpknagcgncibpacohagppjn)
+- [捕捉网页截图 - FireShot的](https://chrome.google.com/webstore/detail/take-webpage-screenshots/mcbpblocgmgfnpjjppndjkmgjaogfceg)
+- [卡片书签](https://chrome.google.com/webstore/detail/card-bookmarks/dkeildaicdhjaboibehldcancpkafnfl)
+- [Vue.js devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
+- [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
+
+    - [视频网页全屏](https://greasyfork.org/zh-CN/scripts/4870-maximize-video)
+    - [网盘助手](https://greasyfork.org/zh-CN/scripts/378301-%E7%BD%91%E7%9B%98%E5%8A%A9%E6%89%8B)
+
+
+
 ##### IDEA plugins
 
 - [Alibaba Java Coding Guidelines](https://plugins.jetbrains.com/plugin/10046-alibaba-java-coding-guidelines):Alibaba编码准则

@@ -9,7 +9,7 @@ date: 2020-04-07 11:46:07
 ---
 
 
- 1. @Transactional的配置
+ 1. ##### @Transactional的配置
 
     ```
     public @interface Transactional {
@@ -47,7 +47,7 @@ date: 2020-04-07 11:46:07
     }
     ```
 
-2. Isolation隔离级别
+2. ##### Isolation隔离级别
 
     - `DEFAULT`——数据库默认隔离级别，MySQL是可重复读，Oracle是已提交读
     - `READ_UNCOMMITTED`——未提交读：事务读取其他事务未提交的数据
@@ -73,7 +73,7 @@ date: 2020-04-07 11:46:07
     |可重复读|×|×|√|
     |可序列化|×|×|×|
 
-3. Propagation传播行为
+3. ##### Propagation传播行为
 
     - ***`REQUIRED`***——默认传播行为，需要事务，如果当前存在事务，就沿用当前事务，否则新建一个事务运行子方法
     - `SUPPORTS`——支持事务，如果当前存在事务，就沿用当前事务，如果不存在，则继续采用无事务的方式运行子方法
