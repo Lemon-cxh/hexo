@@ -107,6 +107,7 @@ leancloud_counter_security:
     enable_sync: true
     app_id: 3m9US7M2rX3qHENaTlCUmrad-gzGzoHsz
     app_key: Y32s7s17bsYNYTOuGmBxgqPf
+    server_url: https://leancloud.cn
     username: Lemon
     password: lemon...
 

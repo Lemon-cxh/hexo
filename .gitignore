@@ -6,4 +6,3 @@ node_modules/
 .deploy*/
 .history/
 public/
-source/leancloud.memo
