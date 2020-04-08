@@ -7,11 +7,9 @@ categories:
 description: SpringBoot声明式事务的使用
 date: 2020-04-07 11:46:07
 ---
+1. ##### @Transactional的配置
 
-
- 1. ##### @Transactional的配置
-
-    ```
+    ```java
     public @interface Transactional {
         // 通过 bean name 指定事务管理器
         @AliasFor("transactionManager")
@@ -67,7 +65,7 @@ date: 2020-04-07 11:46:07
     ---
 
     |类型|脏读|不可重复读|幻读|
-    |:-:|:-:|:-:|:-:|
+    |:--:|:-:|:-:|:-:|
     |未提交读|√|√|√|
     |已提交读|×|√|√|
     |可重复读|×|×|√|
