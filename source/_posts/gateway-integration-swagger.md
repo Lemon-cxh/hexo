@@ -5,7 +5,7 @@ categories:
 - SpringCloud
 tags:
 - Swagger
-- SpringCloud
+- Spring Cloud
 description: Spring Cloud Gateway集成Swagger，以及Nginx配置
 ---
 1. #### 微服务中配置多组文档接口

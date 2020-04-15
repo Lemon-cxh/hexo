@@ -5,7 +5,7 @@ categories:
 - Docker
 tags:
 - Docker
-- SpringCloud
+- Spring Cloud
 description: Docker 的安装、参数、命令以及部署微服务
 ---
 1. ## Docker的安装

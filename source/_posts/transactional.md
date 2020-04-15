@@ -1,10 +1,10 @@
 ---
 title: 事务配置@Transactional
 tags:
-  - SpringBoot
+  - Spring Boot
 categories:
-  - SpringBoot
-description: SpringBoot声明式事务的使用
+  - Spring Boot
+description: Spring Boot声明式事务的使用，@Transactional配置的解释
 date: 2020-04-07 11:46:07
 ---
 1. ##### @Transactional的配置

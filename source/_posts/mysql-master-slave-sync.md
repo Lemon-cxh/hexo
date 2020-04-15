@@ -5,7 +5,6 @@ categories:
 - MySQL
 tags:
 - MySQL
-description: MySQL配置主从同步
 ---
 1. ##### 配置主库/etc/my.cnf,需要重启MySQL服务
 

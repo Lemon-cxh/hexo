@@ -6,7 +6,6 @@ categories:
 tags:
 - Docker
 - Nginx
-description: 在Docker中运行Nginx以及使用 Logrotate 进行日志轮替
 ---
 1. ## 安装nginx
     docker 的安装可以参考{% post_link docker-deploy-springCloud %}

@@ -2,11 +2,10 @@
 title: SpringBoot使用kaptcha生成验证码
 date: 2019-12-24 15:44:58
 categories: 
-- SpringBoot
+- Spring Boot
 tags:
 - kaptcha
-- SpringBoot
-description: SpringBoot使用kaptcha生成验证码
+- Spring Boot
 ---
 1. ##### 添加Maven依赖
     ```xml

@@ -2,9 +2,9 @@
 title: SpringBoot字符串参数去除头尾空格
 date: 2020-01-05 15:29:26
 categories: 
-- SpringBoot
+- Spring Boot
 tags:
-- SpringBoot
+- Spring Boot
 description: SpringBoot对请求参数和请求体JSON中的字符串去除头尾空格
 ---
 1. ##### URL和FORM表单中的参数
