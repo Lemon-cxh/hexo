@@ -40,6 +40,8 @@ description: 常用软件工具以及IDEA和VS Code插件
 
     - [视频网页全屏](https://greasyfork.org/zh-CN/scripts/4870-maximize-video)
     - [网盘助手](https://greasyfork.org/zh-CN/scripts/378301-%E7%BD%91%E7%9B%98%E5%8A%A9%E6%89%8B)
+    - [CSDN自动展开+去广告+净化剪贴板+免登陆](https://greasyfork.org/zh-CN/scripts/372452-csdn%E8%87%AA%E5%8A%A8%E5%B1%95%E5%BC%80-%E5%8E%BB%E5%B9%BF%E5%91%8A-%E5%87%80%E5%8C%96%E5%89%AA%E8%B4%B4%E6%9D%BF-%E5%85%8D%E7%99%BB%E9%99%86)
+    - [去除博客导流公众号](https://greasyfork.org/zh-CN/scripts/392670-%E5%8E%BB%E9%99%A4%E5%8D%9A%E5%AE%A2%E5%AF%BC%E6%B5%81%E5%85%AC%E4%BC%97%E5%8F%B7)
 
 
 
