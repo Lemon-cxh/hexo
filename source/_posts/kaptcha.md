@@ -6,6 +6,7 @@ categories:
 tags:
 - kaptcha
 - Spring Boot
+description: SpringBoot使用kaptcha生成验证码
 ---
 1. ##### 添加Maven依赖
     ```xml

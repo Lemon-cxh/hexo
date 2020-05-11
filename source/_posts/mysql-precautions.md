@@ -5,6 +5,7 @@ categories:
 - MySQL
 tags:
 - MySQL
+description: SQL语句的注意事项
 ---
 1. Limit偏移量大时可以先单独查询Id再关联，或者记录上次查询的最大Id。
 
