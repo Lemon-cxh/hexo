@@ -6,7 +6,7 @@ categories:
 tags:
 - Docker
 - Spring Cloud
-description: Docker 的安装、参数、命令以及部署微服务
+description: Docker 的安装、参数、命令以及consul、redis、rabbitmq、mysql、mogodb的安装和部署微服务
 ---
 1. ## Docker的安装
 
@@ -55,7 +55,7 @@ description: Docker 的安装、参数、命令以及部署微服务
     sudo usermod -aG docker $USER
     ```
 
-2. ## 安装consul、redis、rabbitmq、mysql
+2. ## 安装consul、redis、rabbitmq、mysql、mogodb
  
     1. ### 新建docker网络
 
@@ -98,6 +98,7 @@ description: Docker 的安装、参数、命令以及部署微服务
             `redis-server --appendonly yes`: 在容器执行redis-server启动命令，并打开redis持久化配置
 
         4. MySQL
+
             先配置好/etc/mysql/my.cnf
             ```
             [mysqld]
@@ -148,6 +149,25 @@ description: Docker 的安装、参数、命令以及部署微服务
             刷新授权
             ```sql
             flush privileges;
+            ```
+
+        5. MogoDB
+
+            创建并启动容器
+            ```bash
+            docker run -d --name mongo -p 27017:27017 --network spring-net -v /etc/localtime:/etc/localtime:ro -v /var/lib/mongo:/data/db mongo --auth
+            ```
+            进入容器
+            ```bash
+            docker exec -it mongo mongo admin
+            ```
+            创建管理员用户
+            ```bash
+            db.createUser({ user:'用户名',pwd:'密码',roles:[{ role:'userAdminAnyDatabase', db: 'admin'}]});
+            ```
+            创建读写用户
+            ```bash
+            db.createUser({ user: "用户名", pwd: "密码", roles: [{ role: "readWrite", db: "admin" }]})
             ```
 
 3. ## 安装nginx
