@@ -45,9 +45,15 @@ description: 使用Docker运行Jenkins,结合Gogs完成Java和Vue项目的自动
         ```
 
     2. #####  配置Jenkins
-        访问<http://localhost:8080>(Nginx反向代理访问<http://localhost/jenkins>)输入上一步的密码，选择第一种安装插件方式即可，
-        访问<http://localhost:8080/pluginManager/advanced>找到最底部的Update Site选项，修改URL的https为http。
-     
+
+        访问<http://localhost:8080>(Nginx反向代理访问<http://localhost/jenkins>)输入上一步的密码，选择第一种安装插件方式即可
+
+        如果提示`该jenkins实例似乎已离线`:
+
+        - 访问<http://localhost:8080/pluginManager/advanced>找到最底部的Update Site选项，修改URL的https为http。
+
+        - 修改`/var/jenkins_home/updates/default.json`文件的`connectionCheckUrl`属性的值，改为可访问地址,重启Jenkins
+
         1. ###### 安装插件
         系统管理 -> 插件管理 -> 可选插件
         搜索安装`Generic Webhook Trigger`, `NodeJS Plugin`, `Maven Integration`, `Publish Over SSH`
@@ -58,10 +64,6 @@ description: 使用Docker运行Jenkins,结合Gogs完成Java和Vue项目的自动
 
         - 系统管理 -> 全局工具配置 -> Maven安装以及NodeJS安装,勾选自动安装即可
         ![SSH Servers配置](tool-config.png)
-
-        - 用户列表 -> 选择用户 -> 设置 -> API Token
-        添加新Token，输入后点击生成并把生成的字符保存起来备用
-
 
 2. #### 自动部署Gogs上的Java项目
     > 目前项目为微服务，使用docker部署，并且只自动部署测试分支，所以以下例子只有推送release分支且指定模块下有修改才触发自动部署。
@@ -93,7 +95,7 @@ description: 使用Docker运行Jenkins,结合Gogs完成Java和Vue项目的自动
 
     7. ##### 登录Gogs在仓库管理 -> 管理Web钩子 -> 添加Web钩子 -> gogs
 
-        推送地址为：http://`用户列表的ID`:`用户设置中添加的API Token`@localhost:8080/generic-webhook-trigger/invoke?token=`构建触发器中输入的Token`
+        推送地址为：http://localhost:8080/generic-webhook-trigger/invoke?token=`构建触发器中输入的Token`
         ![gogs config](gogs-config.png)
 
 3. #### 自动部署Gogs上的Vue项目

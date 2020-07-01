@@ -12,7 +12,7 @@ description: 常用软件工具以及IDEA和VS Code插件
 - [IDM](http://www.internetdownloadmanager.com/):下载工具
 - [CCleaner](https://www.ccleaner.com/):清理工具
 - [Everything](https://www.voidtools.com/zh-cn/):基于名称快速定位文件和文件夹
-- [Wox](https://github.com/Wox-launcher/Wox/releases):配合Everything使用
+- [uTools](https://u.tools/):生产力工具集，集成了Everything
 - [PotPlayer](https://potplayer.daum.net/?lang=zh_CN):播放视频软件
 - [Honeyview](https://www.bandisoft.com/honeyview/):图片查看
 - [Bandizip](https://www.bandisoft.com/bandizip/):解压工具
@@ -53,9 +53,10 @@ description: 常用软件工具以及IDEA和VS Code插件
 - [Maven Helper](https://plugins.jetbrains.com/plugin/7179-maven-helper):使用Maven必要的插件
 - [Lombok](https://plugins.jetbrains.com/plugin/6317-lombok):提供对Lombok注解的支持
 - [FindBugs-IDEA](https://plugins.jetbrains.com/plugin/3847-findbugs-idea):Java的缺陷检测工具
+- [RestfulToolkit](https://plugins.jetbrains.com/plugin/10292-restfultoolkit):一套 RESTful 服务开发辅助工具集
+- [Codota](https://plugins.jetbrains.com/plugin/7638-codota):在 IntelliJ 上完成 Java 和 Javascript 的人工智能代码
 - [activate-power-mode](https://plugins.jetbrains.com/plugin/8330-activate-power-mode/):打字特效
 - [Nord](https://plugins.jetbrains.com/plugin/10321-nord):我喜欢的一款主题
-- [你可能会需要的Jetbrains工具](https://zhile.io/2018/08/25/jetbrains-license-server-crack.html)
 
 ##### VS Code plugins
 

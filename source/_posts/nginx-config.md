@@ -1,4 +1,4 @@
----
+ ---
 title: Nginx以及Linux配置
 date: 2020-04-14 14:07:39
 categories: 
@@ -32,6 +32,7 @@ description: Nginx以及Linux配置优化，提升服务器QPS
     net.ipv4.tcp_max_tw_buckets = 5000
     net.ipv4.ip_local_port_range = 4096 65535
     ```
+    执行`sysctl -p`使修改生效
 
     参数说明：
 
