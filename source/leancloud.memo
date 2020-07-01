@@ -4,6 +4,7 @@
 {"title":"Spring Cloud Gateway 集成 Swagger","url":"/gateway-integration-swagger/"},
 {"title":"Jenkins + Gogs 自动化部署","url":"/jenkins-install/"},
 {"title":"SpringBoot 使用 kaptcha 生成验证码","url":"/kaptcha/"},
+{"title":"Linux 常用命令","url":"/linux-common-commands/"},
 {"title":"Mybatis 拦截器之数据加密解密","url":"/mybatis-interceptor/"},
 {"title":"MySQL 主从同步","url":"/mysql-master-slave-sync/"},
 {"title":"MySQL 注意事项","url":"/mysql-precautions/"},

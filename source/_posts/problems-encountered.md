@@ -9,14 +9,14 @@ description: 开发过程中遇到的问题
 
     1. ###### Invalid character '[' for QUERY_PARAM in "match[]"
 
-        ```log
+        ```vim
         java.lang.IllegalArgumentException: Invalid character '[' for QUERY_PARAM in "match[]"
         ```
         Spring Cloud Gateway与Webflux的兼容性的问题，项目的Gateway版本2.0.0.RELEASE，去除`spring-boot-starter-webflux`依赖解决可以升级Gateway版本。[issues](https://github.com/spring-cloud/spring-cloud-gateway/issues/462)
 
     2. ###### unexpected message type: DefaultHttpRequest
 
-        ```log
+        ```vim
         io.netty.handler.codec.EncoderException: java.lang.IllegalStateException: unexpected message type: DefaultHttpRequest
         ```
         Spring Cloud Gateway以及Spring Boot版本2.0.1.RELEASE更新为2.0.4.RELEASE。[issues](https://github.com/reactor/reactor-netty/issues/177)
