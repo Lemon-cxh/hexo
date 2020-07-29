@@ -42,3 +42,17 @@ description: Feign来调用Get请求,参数为POJO类时需要添加`@SpringQuer
     #### 参考
 
     - [Feign发送get请求使用对象传参问题，@SpringQueryMap解析传参对象父类属性解决方案](https://blog.csdn.net/li295214001/article/details/90410945)
+
+3. ### 开发时查看Feign请求日志
+
+    application配置文件
+    ```yml
+    logging:
+        level:
+            root: DEBUG
+    feign:
+        client:
+            config:
+                default:
+                    loggerLevel: basic
+    ```
