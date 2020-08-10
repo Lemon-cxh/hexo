@@ -1,4 +1,4 @@
- ---
+---
 title: Nginx以及Linux配置
 date: 2020-04-14 14:07:39
 categories: 
@@ -98,3 +98,7 @@ description: Nginx以及Linux配置优化，提升服务器QPS
         include /etc/nginx/conf.d/*.conf;
     }
     ```
+
+    | 参数 | 参数说明 |
+    |--|--|
+    | server_tokens | 隐藏Nginx版本号 |
