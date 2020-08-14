@@ -26,7 +26,7 @@ description: Nginx以及Linux配置优化，提升服务器QPS
     net.core.somaxconn = 65535
     net.ipv4.tcp_syncookies = 1
     net.ipv4.tcp_max_syn_backlog = 65535
-    net.ipv4.tcp_fin_timeout = 30
+    net.ipv4.tcp_fin_timeout = 10
     net.ipv4.tcp_tw_reuse = 1
     net.ipv4.tcp_keepalive_time = 300
     net.ipv4.tcp_max_tw_buckets = 5000
@@ -39,7 +39,7 @@ description: Nginx以及Linux配置优化，提升服务器QPS
     - `net.core.somaxconn`——tcp接受队列的长度
     - `net.ipv4.tcp_syncookies`——表示是否打开TCP同步标签,可以防止一个套接字在有过多试图连接到达时引起过载
     - `net.ipv4.tcp_max_syn_backlog`——对于还未获得对方确认的连接请求，可保存在队列中的最大数目
-    - `net.ipv4.tcp_fin_timeout`——对于本端断开的socket连接，TCP保持在FIN-WAIT-2状态的时间
+    - `net.ipv4.tcp_fin_timeout`——对于本端断开的socket连接，TCP保持在FIN-WAIT-2状态的时间(建议小于30秒为宜)
     - `net.ipv4.tcp_tw_reuse`——表示是否允许将处于TIME-WAIT状态的socket用于新的TCP连接
     - `net.ipv4.tcp_keepalive_time`——TCP发送keepalive探测消息的间隔时间，用于确认TCP连接是否有效
     - `net.ipv4.tcp_max_tw_buckets`——该参数设置系统的TIME_WAIT的数量，如果超过默认值则会被立即清除

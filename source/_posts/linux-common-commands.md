@@ -8,7 +8,7 @@ tags:
 description: Linux的一些常用命令
 ---
 
-1. ##### firewall
+1. #### firewall
 
     - 查看
         ```bash
@@ -30,7 +30,7 @@ description: Linux的一些常用命令
         firewall-cmd --reload
         ```
 
-2. ##### system
+2. #### system
 
     - 设置时区
         ```bash
@@ -42,4 +42,9 @@ description: Linux的一些常用命令
         du -ah --max-depth=1 /var
         ```
 
-    - 
+3. #### 运维
+
+    - 根据PID查询具体的应用程序
+        ```bash
+        ps -ax|grep 20712
+        ```
