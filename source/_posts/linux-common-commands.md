@@ -44,6 +44,14 @@ description: Linux的一些常用命令
 
 3. #### 运维
 
+    - 查看网络系统状态信息
+        ```bash
+        # 查看CLOSE_WAIT的总数
+        netstat -antp|grep CLOSE_WAIT|wc -l
+        # 查看CLOSE_WAIT的信息
+        netstat -antp|grep CLOSE_WAIT
+        ```
+
     - 根据PID查询具体的应用程序
         ```bash
         ps -ax|grep 20712
