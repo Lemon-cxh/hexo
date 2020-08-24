@@ -10,7 +10,7 @@ description: Feign来调用Get请求,参数为POJO类时需要添加`@SpringQuer
 
 1. ### 服务启动失败，报错已经定义了具有该名称的Bean
 
-    #### 错误信息如下
+    #### 错误信息
 
     ```
     The bean 'FeignClientSpecification' could not be registered. A bean with that name has already been defined and overriding is disabled.
@@ -43,7 +43,35 @@ description: Feign来调用Get请求,参数为POJO类时需要添加`@SpringQuer
 
     - [Feign发送get请求使用对象传参问题，@SpringQueryMap解析传参对象父类属性解决方案](https://blog.csdn.net/li295214001/article/details/90410945)
 
-3. ### 开发时查看Feign请求日志
+3. ### 返回结果为JSON，但是ContentType不符
+
+    #### 错误信息
+
+    ```
+    Could not extract response: no suitable HttpMessageConverter found for response type [class com.alibaba.fastjson.JSONObject] and content type [text/html;charset=utf-8]
+    ```
+
+    #### 解决办法
+
+    添加如下配置
+
+    ```java
+    @Bean
+    public Decoder feignDecoder(){
+        return new SpringDecoder(() -> new HttpMessageConverters(new TextMessageConverter()));
+    }
+
+    public static class TextMessageConverter extends MappingJackson2HttpMessageConverter {
+        public TextMessageConverter(){
+            List<MediaType> mediaTypes = new ArrayList<>();
+            mediaTypes.add(MediaType.TEXT_PLAIN);
+            mediaTypes.add(MediaType.TEXT_HTML);
+            setSupportedMediaTypes(mediaTypes);
+        }
+    }
+    ```
+
+4. ### 开发时查看Feign请求日志
 
     application配置文件
     ```yml

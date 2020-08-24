@@ -275,7 +275,7 @@ description: Docker 的安装、参数、命令以及consul、redis、rabbitmq�
 |-h, --hostname=""|指定容器的主机名|
 |-v, --volume=[]|给容器挂载存储卷，挂载到容器的某个目录，要挂载文件需要现在宿主机中提前创建|
 |--volumes-from=[]|给容器挂载其他容器上的卷，挂载到容器的某个目录|
-|--cap-add=[]|添加权限|
+|--cap-add=[]|添加权限,--cap-add=SYS_PTRACE(JVM的调试)|
 |--cap-drop=[]|删除权限|
 |--cidfile=""|运行容器后，在指定文件中写入容器PID值，一种典型的监控系统用法|
 |--cpuset=""|设置容器可以使用哪些CPU，此参数可以用来容器独占CPU|
@@ -323,3 +323,4 @@ description: Docker 的安装、参数、命令以及consul、redis、rabbitmq�
 |docker wait|阻止一个或多个容器停止，然后打印退出代码|
 |docker image prune|清除REPOSITORY和TAG为<none>的镜像|
 |docker volume prune|清除无主的数据卷|
+|docker container update|更新容器属性|

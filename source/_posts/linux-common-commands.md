@@ -1,11 +1,11 @@
 ---
-title: Linux常用命令
+title: 运维常用命令
 date: 2020-06-03 15:54:31
 categories: 
 - Linux
 tags:
 - Linux
-description: Linux的一些常用命令
+description: 运维时Linux，MySQL的一些常用命令
 ---
 
 1. #### firewall
@@ -55,4 +55,11 @@ description: Linux的一些常用命令
     - 根据PID查询具体的应用程序
         ```bash
         ps -ax|grep 20712
+        ```
+
+5. #### MySQL
+
+    - 显示用户正在运行的线程
+        ```bash
+        show full processlist;
         ```
