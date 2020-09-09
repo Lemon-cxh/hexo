@@ -57,7 +57,13 @@ description: 运维时Linux，MySQL的一些常用命令
         ps -ax|grep 20712
         ```
 
-5. #### MySQL
+    - 查询日志
+        ```bash
+        # 查看9日这天的所有日志包含 getLog][123456 的信息
+        zcat service.log.2020-09-09.*.gz|grep getLog\\]\\[123456
+        ```
+
+4. #### MySQL
 
     - 显示用户正在运行的线程
         ```bash

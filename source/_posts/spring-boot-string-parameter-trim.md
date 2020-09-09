@@ -30,10 +30,13 @@ description: SpringBoot对请求参数和请求体JSON中的字符串去除头�
         public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
             return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder
                     .deserializerByType(String.class, new StdScalarDeserializer<String>(String.class) {
+
+                        private static final long serialVersionUID = -7069002275820643695L;
+                        
                         @Override
                         public String deserialize(JsonParser jsonParser, DeserializationContext ctx)
                                 throws IOException {
-                            return StringUtils.trimWhitespace(jsonParser.getValueAsString());
+                            return StringUtils.trimToNull(jsonParser.getValueAsString());
                         }
                     });
         }

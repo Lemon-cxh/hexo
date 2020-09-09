@@ -25,7 +25,7 @@ description: Nginx以及Linux配置优化，提升服务器QPS
     ```
     net.core.somaxconn = 65535
     net.ipv4.tcp_syncookies = 1
-    net.ipv4.tcp_max_syn_backlog = 65535
+    net.ipv4.tcp_max_syn_backlog = 1024
     net.ipv4.tcp_fin_timeout = 10
     net.ipv4.tcp_tw_reuse = 1
     net.ipv4.tcp_keepalive_time = 300

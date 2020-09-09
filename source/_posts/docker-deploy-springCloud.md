@@ -6,7 +6,7 @@ categories:
 tags:
 - Docker
 - Spring Cloud
-description: Docker 的安装、参数、命令以及consul、redis、rabbitmq、mysql、mogodb的安装和部署微服务
+description: Docker 的安装、参数、命令以及consul、nacos、redis、rabbitmq、mysql、mogodb的安装和部署微服务
 ---
 1. ## Docker的安装
 
@@ -55,7 +55,7 @@ description: Docker 的安装、参数、命令以及consul、redis、rabbitmq�
     sudo usermod -aG docker $USER
     ```
 
-2. ## 安装consul、redis、rabbitmq、mysql、mogodb
+2. ## 安装consul、nacos、redis、rabbitmq、mysql、mogodb
  
     1. ### 新建docker网络
 
@@ -66,6 +66,7 @@ description: Docker 的安装、参数、命令以及consul、redis、rabbitmq�
     2. ### 获取镜像
     ```bash
     docker pull consul
+    docker pull nacos/nacos-server:1.1.4
     docker pull redis
     docker pull rabbitmq:management
     ```
@@ -79,13 +80,19 @@ description: Docker 的安装、参数、命令以及consul、redis、rabbitmq�
             ```
             `-bootstrap-expect`:指定期望的server节点的数量，并当server节点可用的时候，自动进行bootstrapping
 
-        2. RabbitMQ
+        2. Nacos
+
+            ```bash
+            docker run --name nacos --network spring-net -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_MASTER_SERVICE_HOST=192.168.1.1 -e MYSQL_MASTER_SERVICE_PORT=3306 -e MYSQL_MASTER_SERVICE_DB_NAME=nacos -e MYSQL_MASTER_SERVICE_USER=user -e MYSQL_MASTER_SERVICE_PASSWORD=password -e MYSQL_DATABASE_NUM=1 -e NACOS_SERVERS="192.168.1.1:8848 192.168.1.2:8848 192.168.1.3:8848" -e NACOS_SERVER_IP=192.168.1.216 -p 8848:8848 -d nacos/nacos-server:1.1.4
+            ```
+
+        3. RabbitMQ
 
             ```bash
             docker run -d --name rabbitmq --network spring-net -e RABBITMQ_DEFAULT_USER=username -e RABBITMQ_DEFAULT_PASS=password -p 15672:15672 -p 5672:5672  rabbitmq:management
             ```
 
-        3. Redis
+        4. Redis
  
             需要先配置好/etc/redis.conf,可下载[官方配置](http://download.redis.io/redis-stable/redis.conf)。
 
@@ -97,7 +104,7 @@ description: Docker 的安装、参数、命令以及consul、redis、rabbitmq�
             ```
             `redis-server --appendonly yes`: 在容器执行redis-server启动命令，并打开redis持久化配置
 
-        4. MySQL
+        5. MySQL
 
             先配置好/etc/mysql/my.cnf
             ```
@@ -151,7 +158,7 @@ description: Docker 的安装、参数、命令以及consul、redis、rabbitmq�
             flush privileges;
             ```
 
-        5. MogoDB
+        6. MogoDB
 
             创建并启动容器
             ```bash
@@ -189,7 +196,7 @@ description: Docker 的安装、参数、命令以及consul、redis、rabbitmq�
     systemctl restart docker
     ```
 
-    2. ### pom配置
+    1. ### pom配置
     ```xml
     <build>
         <finalName>ace-gateway</finalName>
@@ -215,7 +222,7 @@ description: Docker 的安装、参数、命令以及consul、redis、rabbitmq�
     </build>
     ```
 
-    3. ### application配置
+    1. ### application配置
     ```yml
     redis:
         host: ${REDIS_HOST:localhost}
@@ -225,7 +232,7 @@ description: Docker 的安装、参数、命令以及consul、redis、rabbitmq�
         host: ${CONSUL_HOST:localhost}
     ```
 
-    4. ### Dockerfile配置
+    1. ### Dockerfile配置
     ```bash
     FROM anapsix/alpine-java:8_server-jre_unlimited
     VOLUME /tmp
@@ -239,7 +246,7 @@ description: Docker 的安装、参数、命令以及consul、redis、rabbitmq�
     ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dfile.encoding=utf-8","-jar","/app.jar"]
     ```
 
-    5. ### 运行服务
+    1. ### 运行服务
     ```bash
     docker run -d --name geteway -p 8765:8765 --network spring-net -v /var/log/gateway:/var/log/gateway iot-gateway
     ```
