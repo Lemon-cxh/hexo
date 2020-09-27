@@ -311,7 +311,7 @@ description: Docker 的安装、参数、命令以及consul、nacos、redis、ra
 |docker diff|检查容器文件系统上文件或目录的更改|
 |docker exec|在运行容器中运行命令|
 |docker export|将容器的文件系统导出为tar存档|
-|docker inspect|显示一个或多个容器的详细信息|
+|docker inspect|显示一个或多个容器的详细信息 docker inspect 容器名 -f '{{json .State}}' |
 |docker kill|杀死一个或多个运行容器|
 |docker logs|获取容器的日志|
 |docker ls|列出容器|

@@ -69,3 +69,10 @@ description: 运维时Linux，MySQL的一些常用命令
         ```bash
         show full processlist;
         ```
+
+5. #### Reids
+
+    - 批量删除
+        ```bash
+        redis-cli -a 密码 keys "KEY:*" | xargs redis-cli -a 密码 del
+        ```

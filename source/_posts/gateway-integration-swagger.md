@@ -217,6 +217,8 @@ description: Spring Cloud Gateway集成Swagger，以及Nginx配置
 			  - SwaggerHeaderFilter
 			  - StripPrefix=1
 			```
+
+        > 采用方案2，并且将`spring-cloud-dependencies`依赖从`Finchley.RELEASE<`升级到`Finchley.SR4`,`spring-boot-starter-parent`依赖从`2.0.1.RELEASE`升级到`2.0.9.RELEASE`。文档中的路径多了一个服务路由前缀，将方案二代码去除，文档中的路径恢复正常。
 3. #### Nginx配置
 	1. ##### Nginx配置文件
 		```conf
