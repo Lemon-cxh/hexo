@@ -21,7 +21,9 @@ description: 开发过程中遇到的问题
         ```
         Spring Cloud Gateway以及Spring Boot版本2.0.1.RELEASE更新为2.0.4.RELEASE。[issues](https://github.com/reactor/reactor-netty/issues/177)
 
-    3. ###### upstream sent no valid HTTP/1.0 header while reading response header from upstream
+2. ##### Nginx
+
+    1. ###### upstream sent no valid HTTP/1.0 header while reading response header from upstream
 
         Nginx报错，然后设置了Nginx和业务服务配置
         ```conf
@@ -56,4 +58,27 @@ description: 开发过程中遇到的问题
             response.sendError(***);
             ***
         }
+        ```
+
+    2. ###### upstream server temporarily disabled while reading response header from upstream
+
+        ```conf
+        upstream zxjl {
+            least_conn;
+            server 192.168.1.1:8765 max_fails=3 fail_timeout=30s;
+            server 192.168.1.2:8765 max_fails=3 fail_timeout=30s;
+            keepalive 256;
+        }
+        ```
+
+    3. ###### upstream timed out (110: Connection timed out) while reading response header from upstream
+
+        ```conf
+        proxy_read_timeout 240;
+        proxy_send_timeout 240;
+        proxy_buffer_size 128k;
+        proxy_buffers 8 256k;
+        proxy_busy_buffers_size 256k;
+        proxy_temp_file_write_size 256k;
+        proxy_next_upstream error timeout invalid_header http_503;
         ```
