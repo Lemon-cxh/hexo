@@ -64,6 +64,11 @@ description: 运维时Linux，MySQL的一些常用命令
         ```
 
 4. #### MySQL
+   
+    - 查询时间段内的binlog日志
+        ```bash
+        mysqlbinlog --no-defaults --base64-output=DECODE-ROWS -v  /var/lib/mysql/mysql-bin.000001 --start-datetime '2020-10-09 15:00:00' --stop-datetime '2020-10-09 16:00:00' > /tmp/mysql.sql
+        ```
 
     - 显示用户正在运行的线程
         ```bash
