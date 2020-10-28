@@ -8,6 +8,7 @@
 {"title":"Linux 常用命令","url":"/linux-common-commands/"},
 {"title":"运维常用命令","url":"/linux-common-commands/"},
 {"title":"Mybatis 拦截器之数据加密解密","url":"/mybatis-interceptor/"},
+{"title":"MySQL 定时备份","url":"/mysql-backup/"},
 {"title":"MySQL 主从同步","url":"/mysql-master-slave-sync/"},
 {"title":"MySQL 注意事项","url":"/mysql-precautions/"},
 {"title":"Nginx 以及 Linux 配置","url":"/nginx-config/"},
