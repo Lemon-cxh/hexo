@@ -16,6 +16,7 @@
 {"title":"RabbitMQ 延迟队列","url":"/rabbitmq-delay-queued/"},
 {"title":"SpringBoot 字符串参数去除头尾空格","url":"/spring-boot-string-parameter-trim/"},
 {"title":"Spring Cloud Gateway 全局异常处理","url":"/spring-cloud-gateway-exception-handler/"},
+{"title":"Spring Cloud Gateway 灰度负载均衡","url":"/spring-cloud-gateway-grayscale-load-balancer/"},
 {"title":"常用软件工具","url":"/tool/"},
 {"title":"事务配置 @Transactional","url":"/transactional/"},
 ]

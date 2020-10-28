@@ -3,9 +3,23 @@ title: 遇到的问题
 date: 2020-04-10 14:14:19
 tags:
 - problems
-description: 开发过程中遇到的问题
+description: 开发过程中遇到的问题,以及处理方式
 ---
-1. ##### Spring Cloud Gateway
+1. ##### Spring Boot
+
+    1. ###### 服务启动后即关闭，没有错误日志
+
+        ```java
+        public static void main(String[] args) {
+            try {
+                SpringApplication.run(TestBootstrap.class, args);
+            } catch (Exception e) {
+                log.error("error", e);
+            }
+        }
+        ```
+
+2. ##### Spring Cloud Gateway
 
     1. ###### Invalid character '[' for QUERY_PARAM in "match[]"
 
@@ -21,7 +35,7 @@ description: 开发过程中遇到的问题
         ```
         Spring Cloud Gateway以及Spring Boot版本2.0.1.RELEASE更新为2.0.4.RELEASE。[issues](https://github.com/reactor/reactor-netty/issues/177)
 
-2. ##### Nginx
+3. ##### Nginx
 
     1. ###### upstream sent no valid HTTP/1.0 header while reading response header from upstream
 
