@@ -5,7 +5,7 @@ categories:
 - Tool
 tags:
 - Tool
-description: 常用软件工具以及IDEA和VS Code插件
+description: 常用软件工具以及IDEA和VSCode插件
 ---
 ##### 日常工具
 
@@ -58,14 +58,15 @@ description: 常用软件工具以及IDEA和VS Code插件
 - [activate-power-mode](https://plugins.jetbrains.com/plugin/8330-activate-power-mode/):打字特效
 - [Nord](https://plugins.jetbrains.com/plugin/10321-nord):我喜欢的一款主题
 
-##### VS Code plugins
+##### VSCode plugins
 
-- `Chinese (Simplified) Language Pack for Visual Studio Code`:适用于VS Code的中文（简体）语言包
+- `Chinese (Simplified) Language Pack for Visual Studio Code`:适用于VSCode的中文（简体）语言包
 - `Git History`:Git历史记录
 - `Auto Close Tag`:自动结束标签
 - `Auto Rename Tag`:自动修改标签名
 - `Rainbow Brackets`:彩虹色括号
 - `Power Mode`:打字特效
-- `Settings Sync`:VS Code配置同步
-- `Vetur`:VS Code的Vue工具
+- `Settings Sync`:VSCode配置同步
+- `Vetur`:VSCode的Vue工具
+- `Comment Translate`:VSCode注释翻译
 - `Nord`:我喜欢的一款主题

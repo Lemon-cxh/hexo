@@ -5,7 +5,7 @@ categories:
 - Jenkins
 tags:
 - Jenkins
-description: 使用Docker运行Jenkins,结合Gogs完成Java和Vue项目的自动化部署
+description: 使用Docker运行Jenkins,结合Gogs完成Java和Vue项目的自动化部署,最后使用企业微信通知部署进度
 ---
 > 使用Docker运行Jenkins,结合Gogs完成Java和Vue项目的自动化部署
 > Docker的安装可以参考{% post_link docker-deploy-springCloud %}
@@ -126,3 +126,14 @@ description: 使用Docker运行Jenkins,结合Gogs完成Java和Vue项目的自动
         tar -zxf /**/dist.tar.gz -C /**/dist
         rm -rf /**/dist.tar.gz
         ```
+
+4. #### 企业微信通知
+
+    1. ##### 安装插件
+        [Jenkins企业微信通知插件](https://github.com/Lemon-cxh/cxh-wechat-notification)
+    2. ##### 系统配置
+        ![系统配置](wechat-notification-configure.png)
+    3. ##### 任务单独配置
+        ![任务单独配置](wechat-notification-job-configure.png)
+    4. ##### 效果图
+        ![效果图](wechat-notification-result.jpg)
