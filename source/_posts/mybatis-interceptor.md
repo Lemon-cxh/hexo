@@ -279,6 +279,8 @@ description: 我们要实现数据加密，进入数据库的字段不能是真�
             private EncryptDecryptUtils() {}
         }
         ```
+        
+    > 数据库同样有AES加解密函数：`AES_ENCRYPT(str,key_str)`以及`AES_DECRYPT(crypt_str,key_str)`。可以执行`SELECT @@block_encryption_mode;` 查看加密模式,修改为256位:`SET @@block_encryption_mode = 'aes-256-ecb';`
 
 3. #### 原文链接
     > ### [Fraser Yu：Mybatis拦截器之数据加密解密](http://www.spring4all.com/article/15081)

@@ -41,9 +41,12 @@ description: Nginx以及Linux配置优化，提升服务器QPS
     - `net.ipv4.tcp_max_syn_backlog`——对于还未获得对方确认的连接请求，可保存在队列中的最大数目
     - `net.ipv4.tcp_fin_timeout`——对于本端断开的socket连接，TCP保持在FIN-WAIT-2状态的时间(建议小于30秒为宜)
     - `net.ipv4.tcp_tw_reuse`——表示是否允许将处于TIME-WAIT状态的socket用于新的TCP连接
+        > TIME_WAIT过多时，可以设置此参数
     - `net.ipv4.tcp_keepalive_time`——TCP发送keepalive探测消息的间隔时间，用于确认TCP连接是否有效
     - `net.ipv4.tcp_max_tw_buckets`——该参数设置系统的TIME_WAIT的数量，如果超过默认值则会被立即清除
     - `net.ipv4.ip_local_port_range`——规定了tcp/udp可用的本地端口的范围
+
+    > CLOSE_WAIT过多时应该检查服务
 
 3. #### Nginx配置
 

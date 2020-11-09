@@ -47,9 +47,11 @@ description: 运维时Linux，MySQL的一些常用命令
     - 查看网络系统状态信息
         ```bash
         # 查看CLOSE_WAIT的总数
-        netstat -antp|grep CLOSE_WAIT|wc -l
+        netstat -antp | grep CLOSE_WAIT|wc -l
         # 查看CLOSE_WAIT的信息
-        netstat -antp|grep CLOSE_WAIT
+        netstat -antop | grep CLOSE_WAIT
+        # 根据TCP状态分组查询
+        netstat -na | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
         ```
 
     - 根据PID查询具体的应用程序
