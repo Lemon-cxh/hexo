@@ -6,7 +6,7 @@ categories:
 tags:
 - Docker
 - Spring Cloud
-description: Docker 的安装、参数、命令以及consul、nacos、redis、rabbitmq、mysql、mogodb的安装和部署微服务
+description: Docker 的安装、参数、命令，私有仓库的搭建以及consul、nacos、redis、rabbitmq、mysql、mogodb的安装和部署
 ---
 1. ## Docker的安装
 
@@ -55,7 +55,98 @@ description: Docker 的安装、参数、命令以及consul、nacos、redis、ra
     sudo usermod -aG docker $USER
     ```
 
-2. ## 安装consul、nacos、redis、rabbitmq、mysql、mogodb
+2. ## 私有仓库的搭建
+
+    1. ### 创建私有仓库的用户名和密码
+
+        将`username`和`password`换成自己的用户名密码
+        ```bash
+        mkdir /etc/docker/auth
+        docker run --rm  --entrypoint htpasswd httpd:alpine -Bbn username password > /etc/docker/auth/auth.htpasswd
+        ```
+
+    2. ### 运行镜像
+
+        ```bash
+        docker run -d -t --name registry -p 5000:5000 \
+        -v /opt/data/registry:/var/lib/registry \
+        -v /etc/docker/auth:/auth \
+        -v /certs:/certs:ro \
+        -e REGISTRY_STORAGE_DELETE_ENABLED=true \
+        -e "REGISTRY_AUTH=htpasswd" \
+        -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+        -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/auth.htpasswd \
+        -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt \
+        -e REGISTRY_HTTP_TLS_KEY=/certs/domain.key \
+        registry
+        ```
+
+    3. ### 推送镜像到仓库
+    
+        1. 为镜像打标签
+
+            ```bash
+            docker tag 镜像ID/名称 远程仓库地址/仓库名/镜像名
+            docker tag 63c7588bf5a1 test.com:5000/development/gateway
+            ```
+
+        2. 推送至远程仓库
+
+            ```bash
+            docker push test.com:5000/development/gateway
+            ```
+
+        3. 使用`docker-maven-plugin`
+
+            ```xml
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.0</version>
+                <configuration>
+                    <serverId>test.com</serverId>
+                    <dockerHost>http://***:2375</dockerHost>
+                    <imageName>test.com:5000/development/${project.artifactId}</imageName>
+                    <imageTags>latest</imageTags>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <forceTags>true</forceTags>
+                    <pushImageTag>true</pushImageTag>
+                    <pushImage>true</pushImage>
+                    <rm>true</rm>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            ```
+
+            修改Maven的配置(settings.xml)，其中`<id>`和`<serverId>`对应，`username`和`password`为私有仓库账号密码。
+
+            ```xml
+            <server>
+                <id>test.com</id>
+                <username>username</username>
+                <password>password</password>
+                <configuration>
+                    <email>test@test.com</email>
+                </configuration>
+            </server>
+            ```
+
+    4. ### 仓库[API](https://docs.docker.com/registry/spec/api)
+
+        - 列出存储库
+            https://test.com:5000/v2/_catalog
+        - 列出镜像标记
+            https://test.com:5000/v2/\<name\>/tags/list
+        - 获取
+            https://test:5000/v2/\<name\>/manifests/\<tags\>
+
+3. ## 安装consul、nacos、redis、rabbitmq、mysql、mogodb
  
     1. ### 新建docker网络
 
@@ -63,7 +154,7 @@ description: Docker 的安装、参数、命令以及consul、nacos、redis、ra
     docker network create -d bridge spring-net
     ```
 
-    2. ### 获取镜像
+    1. ### 获取镜像
     ```bash
     docker pull consul
     docker pull nacos/nacos-server:1.1.4
@@ -71,7 +162,7 @@ description: Docker 的安装、参数、命令以及consul、nacos、redis、ra
     docker pull rabbitmq:management
     ```
 
-    3. ### 运行镜像
+    1. ### 运行镜像
 
         1. Consul
 
@@ -177,11 +268,11 @@ description: Docker 的安装、参数、命令以及consul、nacos、redis、ra
             db.createUser({ user: "用户名", pwd: "密码", roles: [{ role: "readWrite", db: "admin" }]})
             ```
 
-3. ## 安装nginx
+4. ## 安装nginx
 
     可以参考 {% post_link docker-nginx %}
 
-4. ## 部署微服务
+5. ## 部署微服务
 
     1. ### 配置服务器docker可以远程访问
 
@@ -251,7 +342,7 @@ description: Docker 的安装、参数、命令以及consul、nacos、redis、ra
     docker run -d --name geteway -p 8765:8765 --network spring-net -v /var/log/gateway:/var/log/gateway iot-gateway
     ```
 
-5. ## 防火墙开启端口
+6. ## 防火墙开启端口
     ```bash
     //查看已开放端口
     firewall-cmd --list-ports
@@ -263,7 +354,7 @@ description: Docker 的安装、参数、命令以及consul、nacos、redis、ra
     systemctl restart firewalld
     ```
 
-6. ## Docker参数/命令
+7. ## Docker参数/命令
 
 |参数|描述|
 |--|--|
