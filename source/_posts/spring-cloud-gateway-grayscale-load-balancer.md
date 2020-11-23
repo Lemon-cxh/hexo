@@ -5,7 +5,7 @@ categories:
 - Spring Cloud
 tags:
 - Spring Cloud
-description: 创建自定义负载均衡拦截器，根据请求头参数`version`来轮询调用对应服务
+description: 创建自定义负载均衡拦截器，根据请求头参数version来轮询调用对应服务
 ---
 1. ##### 创建自定义负载均衡拦截器
 
