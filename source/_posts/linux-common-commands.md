@@ -75,6 +75,12 @@ description: 运维时Linux，MySQL的一些常用命令
     - 显示用户正在运行的线程
         ```bash
         show full processlist;
+        SELECT * FROM INFORMATION_SCHEMA.processlits;
+        ```
+
+    - 查看死锁信息
+        ```bash
+        show engine innodb status;
         ```
 
 5. #### Reids
