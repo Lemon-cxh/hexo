@@ -120,3 +120,26 @@ tags:
   
         > 也可以实现`RejectedExecutionHandler`接口自定义策略
 
+    ```mermaid
+    graph TB
+        start(提交任务) --> coreSize{工作线程数<br/>小于核心线程数}
+
+        coreSize --否--> queue{任务队列未满}
+
+        coreSize --是--> newThread(新建线程<br/>并执行任务)
+
+        newThread --> over(任务结束)
+
+        queue --否--> workSize{工作线程数<br/>小于最大线程数}
+
+        queue --是--> putQueue(任务入队<br/>空闲线程执行)
+
+        putQueue --> over
+
+        workSize --是--> newThread2(新建线程<br/>并执行任务)
+
+        workSize --> handler(拒绝策略)
+
+        newThread2 --> over
+
+    ```
