@@ -5,7 +5,7 @@ categories:
 - Java
 tags:
 - Java
-- description: Java集合框架，Map、List
+description: Java集合框架，Map、List
 ---
 #### Map
 

@@ -5,7 +5,7 @@ categories:
 - Java
 tags:
 - Java
-- description: Java并发包、阻塞队列、线程池
+description: Java并发包、阻塞队列、线程池
 ---
 #### 并发包锁
 
