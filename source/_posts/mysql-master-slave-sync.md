@@ -21,6 +21,10 @@ description: MySQL配置主从同步
     binlog-ignore-db = information_schema  
     # 只同步哪些数据库，除此之外，其他不同步  
     binlog-do-db = game
+    # 保留指定日期范围内的bin log历史日志。默认为0，保留所有日志
+    expire_logs_days=7
+    # bin log日志每达到设定大小后，会使用新的bin log日志。默认为1073741824，1GB
+    max_binlog_size=1073741824
     ```
 
 2. ##### 主库创建用于同步的账号
