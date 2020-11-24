@@ -1,6 +1,7 @@
 ---
 title: Spring Cloud 版本升级为Greenwich，Feign 遇到的问题
 date: 2020-07-29 16:51:37
+keywords: Feign,SpringCloud
 tags:
 - Spring Cloud Feign
 description: Feign来调用Get请求,参数为POJO类时需要添加@SpringQueryMap注解，因此Spring Cloud版本从Finchley升级到Greenwich，之后所遇到的问题

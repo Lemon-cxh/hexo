@@ -1,6 +1,7 @@
 ---
 title: SpringBoot使用kaptcha生成验证码
 date: 2019-12-24 15:44:58
+keywords: SpringBoot,kaptcha,验证码
 categories: 
 - Spring Boot
 tags:

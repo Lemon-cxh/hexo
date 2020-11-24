@@ -1,11 +1,12 @@
 ---
 title: 事务配置@Transactional
+date: 2020-04-07 11:46:07
+keywords: 事务,MySQL,Transactional
 tags:
   - Spring Boot
 categories:
   - Spring Boot
 description: Spring Boot声明式事务的使用，@Transactional配置的解释
-date: 2020-04-07 11:46:07
 ---
 1. ##### @Transactional的配置
 

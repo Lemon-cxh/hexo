@@ -1,6 +1,7 @@
 ---
 title: Jenkins + Gogs 自动化部署
 date: 2019-09-29 16:53:54
+keywords: Jenkins,Gogs,自动化部署
 categories: 
 - Jenkins
 tags:

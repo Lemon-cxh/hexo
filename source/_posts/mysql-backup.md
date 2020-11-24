@@ -1,6 +1,7 @@
 ---
 title: MySQL 定时备份
 date: 2020-10-09 14:49:03
+keywords: MySQL,备份
 categories: 
 - MySQL
 tags:

@@ -1,6 +1,7 @@
 ---
 title: Nginx以及Linux配置
 date: 2020-04-14 14:07:39
+keywords: Nginx,Linux
 categories: 
 - Nginx
 tags:

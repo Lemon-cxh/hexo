@@ -1,6 +1,7 @@
 ---
 title: MySQL注意事项
 date: 2019-12-03 11:03:07
+keywords: MySQL
 categories: 
 - MySQL
 tags:

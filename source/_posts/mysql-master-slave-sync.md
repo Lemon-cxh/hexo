@@ -1,6 +1,7 @@
 ---
 title: MySQL主从同步
 date: 2019-12-09 17:53:33
+keywords: MySQL,主从同步
 categories: 
 - MySQL
 tags:

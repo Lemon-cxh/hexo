@@ -1,6 +1,7 @@
 ---
 title: 运维常用命令
 date: 2020-06-03 15:54:31
+keywords: 运维命令
 categories: 
 - Linux
 tags:

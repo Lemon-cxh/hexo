@@ -1,6 +1,7 @@
 ---
 title: RabbitMQ延迟队列
 date: 2020-08-12 17:47:29
+keywords: RabbitMQ
 categories: 
 - Spring Boot
 tags:
