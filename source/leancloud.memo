@@ -1,4 +1,6 @@
 [
+{"title":"设计模式","url":"/design-pattern/"},
+{"title":"设计原则","url":"/design-principle/"},
 {"title":"Docker 部署微服务 (Cloud-Admin) 以及 Docker 参数、命令","url":"/docker-deploy-springCloud/"},
 {"title":"Docker 中安装 Nginx 以及使用 Logrotate 进行日志轮替","url":"/docker-nginx/"},
 {"title":"Spring Cloud 版本升级为 Greenwich，Feign 遇到的问题","url":"/feign/"},

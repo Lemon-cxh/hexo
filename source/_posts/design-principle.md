@@ -6,7 +6,7 @@ categories:
 - Note
 tags:
 - Note
-description: 设计原则
+description: SOLID是5个设计原则开头字母的缩写，其本身就有"稳定的"的意思，寓意是"遵从SOLID原则可以建立稳定、灵活、健壮的系统"
 ---
 
 #### SOLID设计原则
