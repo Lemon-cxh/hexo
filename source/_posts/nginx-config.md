@@ -33,7 +33,7 @@ description: Nginx以及Linux配置优化，提升服务器QPS
     net.ipv4.tcp_max_tw_buckets = 5000
     net.ipv4.ip_local_port_range = 4096 65535
     ```
-    执行`sysctl -p`使修改生效
+    执行`sysctl -p`使修改生效，`sysctl -a`显示所有的参数信息
 
     参数说明：
 
@@ -46,8 +46,9 @@ description: Nginx以及Linux配置优化，提升服务器QPS
     - `net.ipv4.tcp_keepalive_time`——TCP发送keepalive探测消息的间隔时间，用于确认TCP连接是否有效
     - `net.ipv4.tcp_max_tw_buckets`——该参数设置系统的TIME_WAIT的数量，如果超过默认值则会被立即清除
     - `net.ipv4.ip_local_port_range`——规定了tcp/udp可用的本地端口的范围
-
+    - `net.ipv4.tcp_tw_recycle`——表示开启TCP连接中TIME-WAIT的sockets快速回收，默认为0，表示关闭。不建议开启，开启后对于NAT网络会导致大量的TCP连接建立错误。
     > CLOSE_WAIT过多时应该检查服务
+    [系统调优你所不知道的TIME_WAIT和CLOSE_WAIT](https://zhuanlan.zhihu.com/p/40013724)
 
 3. #### Nginx配置
 
