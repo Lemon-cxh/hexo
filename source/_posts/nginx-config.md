@@ -29,7 +29,9 @@ description: Nginx以及Linux配置优化，提升服务器QPS
     net.ipv4.tcp_max_syn_backlog = 1024
     net.ipv4.tcp_fin_timeout = 10
     net.ipv4.tcp_tw_reuse = 1
-    net.ipv4.tcp_keepalive_time = 300
+    net.ipv4.tcp_keepalive_time = 600
+    net.ipv4.tcp_keepalive_intvl = 30
+    net.ipv4.tcp_keepalive_probes = 3
     net.ipv4.tcp_max_tw_buckets = 5000
     net.ipv4.ip_local_port_range = 4096 65535
     ```
@@ -42,8 +44,10 @@ description: Nginx以及Linux配置优化，提升服务器QPS
     - `net.ipv4.tcp_max_syn_backlog`——对于还未获得对方确认的连接请求，可保存在队列中的最大数目
     - `net.ipv4.tcp_fin_timeout`——对于本端断开的socket连接，TCP保持在FIN-WAIT-2状态的时间(建议小于30秒为宜)
     - `net.ipv4.tcp_tw_reuse`——表示是否允许将处于TIME-WAIT状态的socket用于新的TCP连接
-        > TIME_WAIT过多时，可以设置此参数
-    - `net.ipv4.tcp_keepalive_time`——TCP发送keepalive探测消息的间隔时间，用于确认TCP连接是否有效
+    - `net.ipv4.tcp_keepalive_time`——TCP发送keepalive探测消息的间隔时间，用于确认TCP连接是否有效，默认为7200(seconds)。
+    - `net.ipv4.tcp_keepalive_intvl`——当探测没有确认时，重新发送探测的频度，默认为75。
+    - `net.ipv4.tcp_keepalive_probes`——在认定连接失效之前，发送多少个TCP的keepalive探测包，默认为9。
+        > 以上三个参数的意思为：如果某个TCP连接在idle 7200秒后,内核才发起probe.如果probe 9次(每次75秒)不成功,内核才彻底放弃。
     - `net.ipv4.tcp_max_tw_buckets`——该参数设置系统的TIME_WAIT的数量，如果超过默认值则会被立即清除
     - `net.ipv4.ip_local_port_range`——规定了tcp/udp可用的本地端口的范围
     - `net.ipv4.tcp_tw_recycle`——表示开启TCP连接中TIME-WAIT的sockets快速回收，默认为0，表示关闭。不建议开启，开启后对于NAT网络会导致大量的TCP连接建立错误。
