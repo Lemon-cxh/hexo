@@ -63,7 +63,7 @@ description: 开发过程中遇到的问题,以及处理方式
                 port-header: X-Forwarded-Port
         ```
         
-        然后依旧报错，此时把停止运行服务再次请求，然而正常访问，说明Spring Gateway和Nginx之间没有问题，便排查业务服务。
+        然后依旧报错，此时把服务停止运行再次请求，然而正常访问，说明Spring Gateway和Nginx之间没有问题，便排查业务服务。
         在`HandlerInterceptorAdapter`处理拦截器种发现了这么一段代码`response.sendError`。
         此方法使用指定的状态码发送一个错误响应至客户端。服务器默认会创建一个HTML格式的服务错误页面作为响应结果，其中包含参数msg指定的文本信息，这个HTML页面的内容类型为`text/html`，保留cookies和其他未修改的响应头信息。
         最后去掉此行代码，替换为抛出全局异常，得以解决。
@@ -97,3 +97,13 @@ description: 开发过程中遇到的问题,以及处理方式
         proxy_temp_file_write_size 256k;
         proxy_next_upstream error timeout invalid_header http_503;
         ```
+
+4. ##### 服务器
+
+    1. ###### Error: Network Error
+        请求时不时提示net:ERR_CONNECTION_TIMED_OUT以及Error: Network Error。
+        ```conf
+        # /etc/sysctl.conf
+        net.ipv4.tcp_tw_recycle = 0
+        ```
+        
