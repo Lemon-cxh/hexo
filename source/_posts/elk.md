@@ -55,14 +55,16 @@ date: 2021-01-20 17:25:03
     ```bash
     # 创建目录存放证书
     mkdir config/certs
-    # 为群集创建证书
+    # 创建密钥
     ./bin/elasticsearch-certutil ca
-    # 输入所需的输出文件
+    # 输入所需的输出文件目录
     config/certs/elastic-stack-ca.p12
-    # 群集中的每个节点生成证书和私钥
+    # 生成证书
     ./bin/elasticsearch-certutil cert --ca config/certs/elastic-stack-ca.p12
-    # 输入所需的输出文件
+    # 输入所需的输出文件目录
     config/certs/elastic-certificates.p12
+    # 从文件中提取 CA 证书链
+    openssl pkcs12 -in elastic-certificates.p12 -cacerts -nokeys -out elasticsearch-ca.pem
     ```
 
     拷贝配置文件并停止容器
@@ -86,12 +88,16 @@ date: 2021-01-20 17:25:03
     ```yml
     cluster.name: "elasticsearch-test"
     network.host: 0.0.0.0
-    bootstrap.mlockall: true
+    bootstrap.memory_lock: true
+    # 加密 HTTP 客户端通信
     xpack.security.enabled: true
-    # 加密集群中节点之间的通讯
+    xpack.security.http.ssl.enabled: true
+    xpack.security.http.ssl.keystore.path: certs/elastic-certificates.p12
+    xpack.security.http.ssl.truststore.path: certs/elastic-certificates.p12
+    # 加密集群中节点之间的通讯以及Elasticsearch和Kibana之间通信
     xpack.security.transport.ssl.enabled: true
-    xpack.security.transport.ssl.verification_mode: certificate
     xpack.security.transport.ssl.keystore.path: certs/elastic-certificates.p12
+    xpack.security.transport.ssl.verification_mode: certificate
     xpack.security.transport.ssl.truststore.path: certs/elastic-certificates.p12
     ```
 
@@ -162,24 +168,30 @@ date: 2021-01-20 17:25:03
     ```yml
     server.name: kibana
     server.host: "0"
-    elasticsearch.hosts: [ "http://IP:9200" ]
+    server.ssl.enabled: true
+    server.ssl.keystore.path: "/usr/share/elasticsearch/config/certs/elastic-certificates.p12"
+    server.ssl.keystore.password: ""
+    elasticsearch.hosts: [ "https://IP:9200" ]
     elasticsearch.username: "kibana_system"
     elasticsearch.password: "安装elasticsearch时设置的kibana_system密码"
-    elasticsearch.ssl.verificationMode: certificate
     elasticsearch.ssl.truststore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
     elasticsearch.ssl.truststore.password: ""
+    elasticsearch.ssl.verificationMode: certificate
+    elasticsearch.ssl.certificateAuthorities: ["/usr/share/elasticsearch/config/certs/elasticsearch-ca.pem"]
     monitoring.ui.container.elasticsearch.enabled: true
+    xpack.encryptedSavedObjects.encryptionKey: 32位字符串
+    xpack.reporting.capture.browser.chromium.disableSandbox: false
     # 设置为中文
     i18n.locale: "zh-CN"
     ```
 
-2. ##### 启动容器
+1. ##### 启动容器
 
     ```bash
     docker run -d -it --name kibana --net somenetwork -p 5601:5601 -v /usr/share/kibana/config:/usr/share/kibana/config -v /usr/share/elasticsearch/config/certs:/usr/share/elasticsearch/config/certs kibana:7.10.1
     ```
 
-3. ##### 后台管理配置Kibana
+2. ##### 后台管理配置Kibana
 
    1. ###### 为Logstash设置身份验证凭据
 
@@ -189,7 +201,7 @@ date: 2021-01-20 17:25:03
 
        在Kibana中的`管理`>`安全`>`用户`中创建`logstash_internal`用户，设置角色为`logstash_writer`。
 
-    2. ###### 配置时间格式
+    1. ###### 配置时间格式
 
         在Kibana中的`管理`>`高级设置`>`常规`>`Date format`和`Date with nanoseconds format`中配置时间格式为`yyyy-MM-DD HH:mm:ss.SSS`
 
@@ -201,7 +213,7 @@ date: 2021-01-20 17:25:03
     拉取镜像
 
     ```bash
-    docker pull elasticsearch:7.10.1
+    docker pull logstash:7.10.1
     ```
 
     启动容器
@@ -269,9 +281,13 @@ date: 2021-01-20 17:25:03
 
     output {
         elasticsearch {
-            hosts => ["http://IP:9200"]
+            hosts => ["https://IP:9200"]
             user => "logstash_internal"
             password => "${ES_PWD}"
+            ssl => true
+            ssl_certificate_verification => false
+            truststore => '/usr/share/elasticsearch/config/certs/elastic-certificates.p12'
+            truststore_password => ""
         }
     }
     ```
@@ -282,7 +298,7 @@ date: 2021-01-20 17:25:03
     > input.rabbitmq的配置参考[官方文档](https://www.elastic.co/guide/en/logstash/current/plugins-inputs-rabbitmq.html#plugins-inputs-rabbitmq-arguments)
 
 
-3. ##### 启动容器
+2. ##### 启动容器
 
     ```bash
     docker run -d -it --name logstash --net somenetwork -p 5044:5044 -e LOGSTASH_KEYSTORE_PASS=密码 -v /usr/share/logstash/config:/usr/share/logstash/config -v /usr/share/logstash/pipeline:/usr/share/logstash/pipeline -v /usr/share/logstash/data:/usr/share/logstash/data logstash:7.10.1

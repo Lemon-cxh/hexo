@@ -10,16 +10,13 @@ comments: false
 **厦门知晓物联技术服务公司(2018.03~至今)**
 
 - 职位： Java开发工程师
-- 项目描述：
-  智晓精灵是一个物联网智慧幼儿园安全管理平台。项目前端采用 Vue，用 Nginx 做代理，处理前端资源以及请求。后端采用微服务框架 Spring Cloud + MyBatis + Redis，采用 RabbitMQ 进行异步处理，采用 Nacos 做为注册中心和配置中心，采用 Docker 进行容器化部署。
-
 - 工作描述
+ 主导智晓精灵项目的架构设计、开发，项目采用微服务框架 Spring Cloud + MyBatis + Nacos 进行分布式集群部署。使用 Redis 实现分布式锁，RabbitMQ 进行业务异步处理，对 MySQL 进行主从同步、读写分离，使用 Nginx 作为反向代理服务，进行负载均衡以及对前端Vue静态资源处理，采用 Docker 进行容器化部署。
   - 使用Git负责项目分支、版本管理，制定提交规范。基于Jenkins独立实现了服务自动化部署，并通过企业微信通知部署情况。
-  - 负责项目的服务器部署，使用Nginx、Spring Cloud、Nacos完成项目的分布式集群部署，牵头使用Docker进行容器化部署。设置MySQL的主从同步以及定时备份。
+  - 负责项目的服务器部署，使用Nginx、Spring Cloud、Nacos完成项目的分布式集群部署，牵头使用Docker进行容器化部署。设置MySQL的主从同步以及定时备份。引入ELK作为日志收集系统。
   - 负责项目核心功能的开发，如:
-    1. ELK的日志收集系统搭建与接入
-    2. 数据字段在MyBatis拦截器中加解密
-    3. Spring Cloud Gateway集成各个微服务Swagger接口文档
+    1. 数据字段在MyBatis拦截器中加解密
+    2. Spring Cloud Gateway集成各个微服务Swagger接口文档
   - 负责线上 BUG 、服务异常的定位及处理以及服务器和代码的优化工作，如:
     1. 解决Nginx 和 Gateway 偶有请求超时，或者请求长时间无响应
     2. 使用设计模式重构部分代码，提高了代码可读性。

@@ -85,5 +85,5 @@ description: Feign来调用Get请求,参数为POJO类时需要添加@SpringQuery
         client:
             config:
                 default:
-                    loggerLevel: basic
+                    loggerLevel: FULL
     ```
