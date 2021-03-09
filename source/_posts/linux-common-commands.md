@@ -45,6 +45,16 @@ description: 运维时Linux，MySQL的一些常用命令
 
 3. #### 运维
 
+    - 查看 CentOS 版本号
+        ```bash
+        cat /etc/redhat-release
+        ```
+
+    - 查看 CPU 总的线程数(逻辑 CPU 数量)
+        ```bash
+        grep 'processor' /proc/cpuinfo | sort -u | wc -l
+        ```
+
     - 查看网络系统状态信息
         ```bash
         # 查看CLOSE_WAIT的总数

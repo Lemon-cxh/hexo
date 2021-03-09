@@ -30,7 +30,7 @@ date: 2021-01-20 17:25:03
     sysctl -p
     ```
 
-2.  ##### 配置Elasticsearch
+2.  ##### 获取Elasticsearch配置文件
 
     拉取镜像
 
@@ -50,55 +50,11 @@ date: 2021-01-20 17:25:03
     docker exec -it elasticsearch bash
     ```
 
-    生成节点证书
-
-    ```bash
-    # 创建目录存放证书
-    mkdir config/certs
-    # 创建密钥
-    ./bin/elasticsearch-certutil ca
-    # 输入所需的输出文件目录
-    config/certs/elastic-stack-ca.p12
-    # 生成证书
-    ./bin/elasticsearch-certutil cert --ca config/certs/elastic-stack-ca.p12
-    # 输入所需的输出文件目录
-    config/certs/elastic-certificates.p12
-    # 从文件中提取 CA 证书链
-    openssl pkcs12 -in elastic-certificates.p12 -cacerts -nokeys -out elasticsearch-ca.pem
-    ```
-
     拷贝配置文件并停止容器
 
     ```bash
     docker cp elasticsearch:/usr/share/elasticsearch/config /usr/share/elasticsearch;
     docker stop elasticsearch
-    ```
-
-    修改`vi `/usr/share/elasticsearch/config/jvm.options`
-
-    ```
-    # 内存分配不超过机器的一半
-    # 确保堆内存最小值(Xms)与最大值(Xmx)的大小是相同的，防止程序在运行时改变堆内存大小， 这是一个很耗系统资源的过程。
-    -Xms1g
-    -Xmx1g
-    ```
-
-    修改`/usr/share/elasticsearch/config/elasticsearch.yml`
-
-    ```yml
-    cluster.name: "elasticsearch-test"
-    network.host: 0.0.0.0
-    bootstrap.memory_lock: true
-    # 加密 HTTP 客户端通信
-    xpack.security.enabled: true
-    xpack.security.http.ssl.enabled: true
-    xpack.security.http.ssl.keystore.path: certs/elastic-certificates.p12
-    xpack.security.http.ssl.truststore.path: certs/elastic-certificates.p12
-    # 加密集群中节点之间的通讯以及Elasticsearch和Kibana之间通信
-    xpack.security.transport.ssl.enabled: true
-    xpack.security.transport.ssl.keystore.path: certs/elastic-certificates.p12
-    xpack.security.transport.ssl.verification_mode: certificate
-    xpack.security.transport.ssl.truststore.path: certs/elastic-certificates.p12
     ```
 
     创建文件夹用于绑定数据卷
@@ -121,6 +77,13 @@ date: 2021-01-20 17:25:03
     docker exec -it elasticsearch bash
     ```
 
+    修改`/usr/share/elasticsearch/config/elasticsearch.yml`
+
+    ```yml
+    # 添加安全配置
+    xpack.security.enabled: true
+    ```
+
     修改预置账号的密码
 
     ```bash
@@ -139,6 +102,52 @@ date: 2021-01-20 17:25:03
     ```bash
     .bin/elasticsearch-keystore add xpack.security.transport.ssl.keystore.secure_password
     .bin/elasticsearch-keystore add xpack.security.transport.ssl.truststore.secure_password
+    ```
+
+4. ##### 配置Elasticsearch
+
+    生成节点证书
+
+    ```bash
+    # 创建目录存放证书
+    mkdir config/certs
+    # 创建密钥
+    ./bin/elasticsearch-certutil ca
+    # 输入所需的输出文件目录
+    config/certs/elastic-stack-ca.p12
+    # 生成证书
+    ./bin/elasticsearch-certutil cert --ca config/certs/elastic-stack-ca.p12
+    # 输入所需的输出文件目录
+    config/certs/elastic-certificates.p12
+    # 从文件中提取 CA 证书链
+    openssl pkcs12 -in elastic-certificates.p12 -cacerts -nokeys -out elasticsearch-ca.pem
+    ```
+
+     修改`vi `/usr/share/elasticsearch/config/jvm.options`
+
+    ```
+    # 内存分配不超过机器的一半
+    # 确保堆内存最小值(Xms)与最大值(Xmx)的大小是相同的，防止程序在运行时改变堆内存大小， 这是一个很耗系统资源的过程。
+    -Xms1g
+    -Xmx1g
+    ```
+
+    修改`/usr/share/elasticsearch/config/elasticsearch.yml`
+
+    ```yml
+    cluster.name: "elasticsearch-test"
+    network.host: 0.0.0.0
+    bootstrap.memory_lock: true
+    xpack.security.enabled: true
+    # 加密 HTTP 客户端通信
+    xpack.security.http.ssl.enabled: true
+    xpack.security.http.ssl.keystore.path: certs/elastic-certificates.p12
+    xpack.security.http.ssl.truststore.path: certs/elastic-certificates.p12
+    # 加密集群中节点之间的通讯以及Elasticsearch和Kibana之间通信
+    xpack.security.transport.ssl.enabled: true
+    xpack.security.transport.ssl.keystore.path: certs/elastic-certificates.p12
+    xpack.security.transport.ssl.verification_mode: certificate
+    xpack.security.transport.ssl.truststore.path: certs/elastic-certificates.p12
     ```
 
 #### 安装Kibana
@@ -195,7 +204,7 @@ date: 2021-01-20 17:25:03
 
    1. ###### 为Logstash设置身份验证凭据
 
-       在Kibana中的`管理`>`安全`>`角色`中创建角色
+       在Kibana中的`管理`>`安全`>`角色`中创建`logstash_writer`角色
 
        [logstash_writer](logstash_writer.png)
 
