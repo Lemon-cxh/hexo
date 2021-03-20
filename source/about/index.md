@@ -4,9 +4,11 @@ date: 2019-09-02 14:07:43
 type: "about"
 comments: false
 ---
- 
-#### 工作经历
+
 ---
+
+#### 工作经历
+
 **厦门知晓物联技术服务公司(2018.03~至今)**
 
 - 职位： Java开发工程师
@@ -21,14 +23,3 @@ comments: false
     1. 解决Nginx 和 Gateway 偶有请求超时，或者请求长时间无响应
     2. 使用设计模式重构部分代码，提高了代码可读性。
     3. 优化慢 SQL 语句，提升了查询速度。
-
-
-
-#### Powered by
----
-- [Hexo](https://hexo.io): 博客框架
-- [NexT.scheme](https://theme-next.org): 主题
-- [DesignEvo](https://www.designevo.com/cn/logo-maker): Logo设计与制作
-- [Valine](https://valine.js.org): 文章评论系统
-- [LeanCloud](https://leancloud.cn): 文章阅读数及评论的数据云存储
-- [不蒜子](https://busuanzi.ibruce.info/): 本站访问量计数器
