@@ -44,16 +44,11 @@ date: 2021-01-20 17:25:03
     docker run -d -it --name elasticsearch --rm -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.10.1
     ```
 
-    进入容器
-
-    ```bash
-    docker exec -it elasticsearch bash
-    ```
-
     拷贝配置文件并停止容器
 
     ```bash
-    docker cp elasticsearch:/usr/share/elasticsearch/config /usr/share/elasticsearch;
+    mkdir /usr/share/elasticsearch
+    docker cp elasticsearch:/usr/share/elasticsearch/config /usr/share/elasticsearch/config;
     docker stop elasticsearch
     ```
 
@@ -61,27 +56,33 @@ date: 2021-01-20 17:25:03
 
     ```bash
     mkdir /usr/share/elasticsearch/data
+    mkdir /usr/share/elasticsearch/config/certs
     chmod g+rwx /usr/share/elasticsearch/data
-    chmod -R 777 /usr/share/elasticsearch/config/certs
     ```
 
 3. ##### 启动容器修改预置账号的密码
-
-    ```bash
-    docker run -d -it --name elasticsearch --net somenetwork -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -v /usr/share/elasticsearch/data:/usr/share/elasticsearch/data -v /usr/share/elasticsearch/config:/usr/share/elasticsearch/config elasticsearch:7.10.1
-    ```
-
-    进入容器
-
-    ```bash
-    docker exec -it elasticsearch bash
-    ```
 
     修改`/usr/share/elasticsearch/config/elasticsearch.yml`
 
     ```yml
     # 添加安全配置
     xpack.security.enabled: true
+    ```
+
+    没有docker网络可新建
+
+    ```bash
+    docker network create -d bridge docker-net
+    ```
+
+    ```bash
+    docker run -d -it --name elasticsearch --net docker-net -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -v /usr/share/elasticsearch/data:/usr/share/elasticsearch/data -v /usr/share/elasticsearch/config:/usr/share/elasticsearch/config elasticsearch:7.10.1
+    ```
+
+    进入容器
+
+    ```bash
+    docker exec -it elasticsearch bash
     ```
 
     修改预置账号的密码
@@ -105,12 +106,16 @@ date: 2021-01-20 17:25:03
     ```
 
 4. ##### 配置Elasticsearch
+   
+   进入容器
+
+    ```bash
+    docker exec -it elasticsearch bash
+    ```
 
     生成节点证书
 
     ```bash
-    # 创建目录存放证书
-    mkdir config/certs
     # 创建密钥
     ./bin/elasticsearch-certutil ca
     # 输入所需的输出文件目录
@@ -119,11 +124,13 @@ date: 2021-01-20 17:25:03
     ./bin/elasticsearch-certutil cert --ca config/certs/elastic-stack-ca.p12
     # 输入所需的输出文件目录
     config/certs/elastic-certificates.p12
+    # 退出容器
+    exit
     # 从文件中提取 CA 证书链
     openssl pkcs12 -in elastic-certificates.p12 -cacerts -nokeys -out elasticsearch-ca.pem
     ```
 
-     修改`vi `/usr/share/elasticsearch/config/jvm.options`
+     修改`/usr/share/elasticsearch/config/jvm.options`
 
     ```
     # 内存分配不超过机器的一半
@@ -132,13 +139,10 @@ date: 2021-01-20 17:25:03
     -Xmx1g
     ```
 
-    修改`/usr/share/elasticsearch/config/elasticsearch.yml`
+    在`/usr/share/elasticsearch/config/elasticsearch.yml`追加配置
 
     ```yml
-    cluster.name: "elasticsearch-test"
-    network.host: 0.0.0.0
     bootstrap.memory_lock: true
-    xpack.security.enabled: true
     # 加密 HTTP 客户端通信
     xpack.security.http.ssl.enabled: true
     xpack.security.http.ssl.keystore.path: certs/elastic-certificates.p12
@@ -148,6 +152,17 @@ date: 2021-01-20 17:25:03
     xpack.security.transport.ssl.keystore.path: certs/elastic-certificates.p12
     xpack.security.transport.ssl.verification_mode: certificate
     xpack.security.transport.ssl.truststore.path: certs/elastic-certificates.p12
+    ```
+
+    设置文件权限
+    ```bash
+    chmod -R 777 /usr/share/elasticsearch/config/certs
+    ```
+
+    重启elasticsearch
+
+    ```bash
+    docker restart elasticsearch;
     ```
 
 #### 安装Kibana
@@ -168,7 +183,8 @@ date: 2021-01-20 17:25:03
     拷贝配置文件并停止容器
 
     ```bash
-    docker cp kibana:/usr/share/kibana/config /usr/share/kibana;
+    mkdir /usr/share/kibana
+    docker cp kibana:/usr/share/kibana/config /usr/share/kibana/config
     docker stop kibana
     ```
 
@@ -197,7 +213,7 @@ date: 2021-01-20 17:25:03
 1. ##### 启动容器
 
     ```bash
-    docker run -d -it --name kibana --net somenetwork -p 5601:5601 -v /usr/share/kibana/config:/usr/share/kibana/config -v /usr/share/elasticsearch/config/certs:/usr/share/elasticsearch/config/certs kibana:7.10.1
+    docker run -d -it --name kibana --net docker-net -p 5601:5601 -v /usr/share/kibana/config:/usr/share/kibana/config -v /usr/share/elasticsearch/config/certs:/usr/share/elasticsearch/config/certs kibana:7.10.1
     ```
 
 2. ##### 后台管理配置Kibana
@@ -206,7 +222,7 @@ date: 2021-01-20 17:25:03
 
        在Kibana中的`管理`>`安全`>`角色`中创建`logstash_writer`角色
 
-       [logstash_writer](logstash_writer.png)
+       ![logstash_writer](logstash_writer.png)
 
        在Kibana中的`管理`>`安全`>`用户`中创建`logstash_internal`用户，设置角色为`logstash_writer`。
 
@@ -247,21 +263,14 @@ date: 2021-01-20 17:25:03
     拷贝配置文件并停止容器
 
     ```bash
-    docker cp logstash:/usr/share/logstash/config /usr/share/logstash;
-    docker stop logstash;
-    mkdir /usr/share/logstash/data;
+    mkdir /usr/share/logstash
+    docker cp logstash:/usr/share/logstash/config /usr/share/logstash/config
+    docker cp logstash:/usr/share/logstash/pipeline /usr/share/logstash/pipeline
+    docker stop logstash
+    mkdir /usr/share/logstash/data
     chmod 777 /usr/share/logstash/data
     ```
-
-    修改`/usr/share/logstash/config/logstash.yml`
-
-    ```yml
-    http.host: "0.0.0.0"
-    xpack.monitoring.elasticsearch.hosts: [ "http://ip:9200" ]
-    xpack.monitoring.elasticsearch.username: logstash_system
-    xpack.monitoring.elasticsearch.password: logstash_system的密码
-    ```
-
+    
     修改`/usr/share/logstash/pipeline/logstash.conf`
 
     ```conf
@@ -302,7 +311,7 @@ date: 2021-01-20 17:25:03
     ```
 
     > 自定义虚拟网络logs
-    > 创建logs：rabbitmqctl add_vhosts logs
+    > 创建logs：rabbitmqctl add_vhost logs
     > 赋予用户权限：rabbitmqctl set_permissions -p logs 用户名 ".*" ".*" ".*"
     > input.rabbitmq的配置参考[官方文档](https://www.elastic.co/guide/en/logstash/current/plugins-inputs-rabbitmq.html#plugins-inputs-rabbitmq-arguments)
 
@@ -310,7 +319,7 @@ date: 2021-01-20 17:25:03
 2. ##### 启动容器
 
     ```bash
-    docker run -d -it --name logstash --net somenetwork -p 5044:5044 -e LOGSTASH_KEYSTORE_PASS=密码 -v /usr/share/logstash/config:/usr/share/logstash/config -v /usr/share/logstash/pipeline:/usr/share/logstash/pipeline -v /usr/share/logstash/data:/usr/share/logstash/data logstash:7.10.1
+    docker run -d -it --name logstash --net docker-net -p 5044:5044 -e LOGSTASH_KEYSTORE_PASS=密码 -v /usr/share/logstash/config:/usr/share/logstash/config -v /usr/share/logstash/pipeline:/usr/share/logstash/pipeline -v /usr/share/logstash/data:/usr/share/logstash/data logstash:7.10.1
     ```
 
 #### 配置Spring Boot
