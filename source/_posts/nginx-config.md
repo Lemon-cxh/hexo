@@ -74,9 +74,12 @@ description: Nginx以及Linux配置优化，提升服务器QPS
     http {
         include /etc/nginx/mime.types;
         default_type application/octet-stream;
+        underscores_in_headers on;
         log_format main '$remote_addr - $remote_user [$time_local] "$request" '
                         '$status $body_bytes_sent "$http_referer" '
-                        '"$http_user_agent" "$http_x_forwarded_for"';
+                        '"$http_user_agent" "$http_x_forwarded_for"'
+                        '$upstream_addr $upstream_connect_time $upstream_response_time '
+                        '$http_x_request_id $request_id';
 
         access_log /var/log/nginx/access.log  main;
 
@@ -108,6 +111,42 @@ description: Nginx以及Linux配置优化，提升服务器QPS
     }
     ```
 
-    | 参数 | 参数说明 |
-    |--|--|
+    添加`/etc/nginx/config/proxy.conf`文件,在`location`中引入
+    ```
+    location /**/ {
+        proxy_pass http://**/;
+        include /etc/nginx/config/proxy.conf;
+    }
+    ```
+    ```conf
+    proxy_http_version      1.1;
+    proxy_cache_bypass      $http_upgrade;
+
+    proxy_set_header Upgrade                $http_upgrade;
+    proxy_set_header Connection             "";
+    proxy_set_header Host                   $host;
+    proxy_set_header X-Real-IP              $remote_addr;
+    proxy_set_header X-Forwarded-For        $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto      $scheme;
+    proxy_set_header X-Forwarded-Host       $host;
+    proxy_set_header X-Forwarded-Port       $server_port;
+
+    set $trace_id $http_x_request_id;
+    if ($trace_id = "" ) {
+        set $trace_id $request_id;
+    }
+    proxy_set_header X-Request-Id         $trace_id;
+
+    proxy_connect_timeout 60;
+    proxy_read_timeout 240;
+    proxy_send_timeout 240;
+    proxy_buffer_size 128k;
+    proxy_buffers 8 256k;
+    proxy_busy_buffers_size 256k;
+    proxy_temp_file_write_size 256k;
+    proxy_next_upstream http_503;
+    ```
+
+    | 参数          | 参数说明        |
+    | ------------- | --------------- |
     | server_tokens | 隐藏Nginx版本号 |
