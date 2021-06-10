@@ -385,8 +385,6 @@ description: Docker 的安装、参数、命令，私有仓库的搭建以及con
     firewall-cmd --zone=public --add-port=8500/tcp --permanent
     //修改配置文件后 使用命令重新加载
     firewall-cmd --reload
-    //重启防火墙
-    systemctl restart firewalld
     ```
 
 7. ## Docker参数/命令
