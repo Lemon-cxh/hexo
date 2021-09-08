@@ -87,3 +87,30 @@ description: Feign来调用Get请求,参数为POJO类时需要添加@SpringQuery
                 default:
                     loggerLevel: FULL
     ```
+
+5. ### Feign请求时携带原请求头参数——请求ID
+
+    application配置文件
+    ```yml
+    hystrix:
+        command:
+            default:
+                execution:
+                    isolation:
+                        strategy: SEMAPHORE
+    ```
+
+    拦截器
+    ```java
+    public class OkHttpTokenInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            String requestId = attributes.getRequest().getHeader(RequestConstants.X_REQUEST_ID);
+            return chain.proceed(chain.request()
+                        .newBuilder()
+                        .header(RequestConstants.X_REQUEST_ID, requestId)
+                        .build());
+        }
+    }
+    ```
