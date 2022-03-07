@@ -106,4 +106,15 @@ description: 开发过程中遇到的问题,以及处理方式
         # /etc/sysctl.conf
         net.ipv4.tcp_tw_recycle = 0
         ```
-        
+
+5. ##### MySQL
+
+    1. ###### Slave_SQL_Running: No
+
+        因为设置主从同步时忘记排除mysql库，导致主从同步故障。
+        ```bin
+        slave stop;
+        # 跳过一个复制错误
+        set GLOBAL SQL_SLAVE_SKIP_COUNTER=1;
+        slave start;
+        ```
