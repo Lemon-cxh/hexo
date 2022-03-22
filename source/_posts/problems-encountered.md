@@ -76,6 +76,7 @@ description: 开发过程中遇到的问题,以及处理方式
         ```
 
     2. ###### upstream server temporarily disabled while reading response header from upstream
+    3. ###### no live upstreams while connecting to upstream
 
         ```conf
         upstream zxjl {
@@ -86,17 +87,11 @@ description: 开发过程中遇到的问题,以及处理方式
         }
         ```
 
-    3. ###### upstream timed out (110: Connection timed out) while reading response header from upstream
+        > max_fails 默认值为1, fail_timeout 默认值为 10 秒。
 
-        ```conf
-        proxy_read_timeout 240;
-        proxy_send_timeout 240;
-        proxy_buffer_size 128k;
-        proxy_buffers 8 256k;
-        proxy_busy_buffers_size 256k;
-        proxy_temp_file_write_size 256k;
-        proxy_next_upstream error timeout invalid_header http_503;
-        ```
+        fail 失败会返回:
+        - upstream timed out (110: Connection timed out) while reading response header from upstream
+        - connect() failed (111: Connection refused) while connecting to upstream
 
 4. ##### 服务器
 
