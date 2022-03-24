@@ -2,7 +2,7 @@
 title: Docker运行Arcsoft人脸识别服务
 tags:
   - Docker
-keywords: 'Arcsoft,Docker'
+keywords: Arcsoft,Docker
 categories:
   - Docker
 description: Docker 运行 Arcsoft 人脸识别服务，SDK升级后需要GLIBCXX_3.4.21、GLIBC_2.18，所以自行构建基础镜像
