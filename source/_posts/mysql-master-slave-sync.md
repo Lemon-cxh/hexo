@@ -9,7 +9,7 @@ tags:
 description: MySQL配置主从同步
 ---
 
-##### MySQL的复制
+#### MySQL的复制
 
  主服务器将更新写入二进制文件，并维护文件的一个索引以跟踪日志循环。这些日志可以记录发送到从服务器的更新。当一个从服务器连接主服务器时，它通知主服务器从服务器在日志中读取的最后一次成功更新的位置。从服务器接收从那时起发生的任何更新，然后封锁并等待主服务器通知新的更新。
 
@@ -25,6 +25,7 @@ description: MySQL配置主从同步
   2. 从库将主库上的日志复制到自己的中继日志(Relay Log)中
   3. 从库读取中继日志中的事件，并将其重放到从库中
 
+#### 具体操作
 
 1. ##### 配置主库/etc/my.cnf,需要重启MySQL服务
 
@@ -103,3 +104,70 @@ description: MySQL配置主从同步
     Slave_IO_Running: Yes
     Slave_SQL_Running: Yes
     ```
+
+#### show slave status 参数
+
+
+| 参数 | 值 | 说明 |
+| :-: | :-: | :-: |
+|Slave_IO_State |  Waiting | for master to send event
+|                  Master_Host |  192.168.1.80 |
+|                  Master_User |  repl |
+|                  Master_Port |  3306 |
+|                Connect_Retry |  60 |
+|              Master_Log_File |  mysql-bin.000083 |
+|          Read_Master_Log_Pos |  393099157 |
+|               Relay_Log_File |  ecs-bb76-0006-relay-bin.000235 |
+|                Relay_Log_Pos |  300045860 |
+|        Relay_Master_Log_File |  mysql-bin.000083 |
+|             Slave_IO_Running |  Yes |
+|            Slave_SQL_Running |  Yes |
+|              Replicate_Do_DB |   |
+|          Replicate_Ignore_DB |   |
+|           Replicate_Do_Table |   |
+|       Replicate_Ignore_Table |   |
+|      Replicate_Wild_Do_Table |   |
+|  Replicate_Wild_Ignore_Table |   |
+|                   Last_Errno |  0 |
+|                   Last_Error |   |
+|                 Skip_Counter |  0 |
+|          Exec_Master_Log_Pos |  393099157 |
+|              Relay_Log_Space |  300322434 |
+|              Until_Condition |  None |
+|               Until_Log_File |   |
+|                Until_Log_Pos |  0 |
+|           Master_SSL_Allowed |  No |
+|           Master_SSL_CA_File |   |
+|           Master_SSL_CA_Path |   |
+|              Master_SSL_Cert |   |
+|            Master_SSL_Cipher |   |
+|               Master_SSL_Key |   |
+|        Seconds_Behind_Master |  0 |
+|Master_SSL_Verify_Server_Cert |  No |
+|                Last_IO_Errno |  0 |
+|                Last_IO_Error |   |
+|               Last_SQL_Errno |  0 |
+|               Last_SQL_Error |   |
+|  Replicate_Ignore_Server_Ids |   |
+|             Master_Server_Id |  80 |
+|                  Master_UUID |  d2c28dea-8939-11e9-a1af-fa163eea46ba |
+|             Master_Info_File |  /var/lib/mysql/master.info |
+|                    SQL_Delay |  0 |
+|          SQL_Remaining_Delay |  NULL |
+|      Slave_SQL_Running_State |  Slave has read all relay log; waiting for more updates |
+|           Master_Retry_Count |  86400 |
+|                  Master_Bind |   |
+|      Last_IO_Error_Timestamp |   |
+|     Last_SQL_Error_Timestamp |   |
+|               Master_SSL_Crl |   |
+|           Master_SSL_Crlpath |   |
+|           Retrieved_Gtid_Set |   |
+|            Executed_Gtid_Set |   |
+|                Auto_Position | 0 |
+|         Replicate_Rewrite_DB |   |
+|                 Channel_Name |   |
+|           Master_TLS_Version |  |
+#### 常用命令
+
+- `show relaylog events in "Relay_Log_File" from Relay_Log_Pos limit n;`：查看relaylog events
+- `set GLOBAL SQL_SLAVE_SKIP_COUNTER = 1;`：跳过为一个Binlog event group，也就是跳过一个事务
