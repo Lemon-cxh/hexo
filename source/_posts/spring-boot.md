@@ -174,7 +174,7 @@ description: Spring Boot基础知识
 
     - `@EnableAspectJAutoProxy`
     
-        启用@AspectJ注解配置方式
+        添加在配置类或启动类上，启用@AspectJ注解配置方式
     
     - `@AspectJ`
     
@@ -274,3 +274,62 @@ description: Spring Boot基础知识
         - `value`属性指定了哪种类型的Bean要引入该接口。在本例中，也就是所有实现 Performance的类型。(标记符后面的加号表示是Performance的所有子类型，而不是Performance本身。)
         - `defaultImpl`属性指定了为引入功能提供实现的类。在这里，我们指定的是DefaultEncoreable提供实现。
         - @DeclareParents注解所标注的静态属性指明了要引入了接口。在这里，我们所引入的是Encoreable接口。
+
+3. ###### 任务调度
+   
+    1. ###### 异步任务
+    
+    - `@EnableAsync`
+    添加在配置类或启动类上，启用异步任务支持
+
+    - `@Async`
+      将方法标记为异步，当此方法被调用时，会异步执行，也就是新开一个线程执行，不是在当前线程执行
+    
+    2. ###### 定时任务
+    
+    - `@EnableScheduling`
+    添加在配置类或启动类上，启用定时任务支持
+
+    - `@Scheduled`
+      将方法标记为定时方法，需要指定以下任一参数:
+      - fixedDelay: 在上一次定时任务执行完之后，间隔多久继续执行
+      - fixedRate: 无论上一次定时任务有没有执行完成，两次任务之间的时间间隔
+      - cron: 使用cron表达式来指定任务计划
+
+4. ###### 事件和监听器
+    监听器在不同阶段都会监听相应的事件，当事件触发时，对应事件的监听器就会被通知。
+    事件类需要继承 ApplicationEvent:
+    ```java
+    public class TestEvent extends ApplicationEvent {
+        public TestEvent(Object source) {
+            super(source);
+        }
+    }
+    ```
+    监听器实现 ApplicationListener 接口：
+    ```java
+    @Component
+    public class TestListener implements ApplicationListener<TestEvent> {
+
+        @Override
+        public void onApplicationEvent(TestEvent event) {}
+    }
+    ```
+    监听器或者添加 @EventListener 注解：(若监听方法有返回值，那将会把这个返回值当作事件源，一直发送下去，直到返回void或者null停止)
+    ```java
+     @EventListener(TestEvent.class)
+    public void onTestEvent(TestEvent event) {
+        
+    }
+    ```
+    发布事件
+    ```java
+    @Resource
+    ApplicationContext context;
+
+    public void test() {
+        context.publishEvent(new TestEvent("test event"));
+    }
+    ```
+    > @EventListener 注解可以用在接口或者父类上
+    > @EventListener存在漏事件的现象，但是ApplicationListener能监听到所有的相关事件

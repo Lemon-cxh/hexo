@@ -83,6 +83,11 @@ description: 运维时Linux，MySQL的一些常用命令
         mysqlbinlog --no-defaults --base64-output=DECODE-ROWS -v  /var/lib/mysql/mysql-bin.000001 --start-datetime '2020-10-09 15:00:00' --stop-datetime '2020-10-09 16:00:00' > /tmp/mysql.sql
         ```
 
+    - 导出库/表
+      ```bash
+      mysqldump -uroot -p --databases 库名 --tables 表名  > /var/log/mysql/***.sql
+      ```
+
     - 显示用户正在运行的线程
         ```bash
         show full processlist;
@@ -93,6 +98,31 @@ description: 运维时Linux，MySQL的一些常用命令
         ```bash
         show engine innodb status;
         ```
+
+    - 赋予用户权限
+        ```bash
+        GRANT SELECT, UPDATE ON `库名`.* TO 'user'@'%';
+        ```
+        刷新权限
+        ```bash
+        FLUSH PRIVILEGES;
+        ```
+        常用权限:
+        |权限|说明|
+        |:-:|:-:|
+        | ALL | 授予除了GRANT OPTION之外的指定访问级别的所有权限 |
+        | GRANT OPTION | 允许用户有权授予或撤销其他帐户的权限 |
+        | CREATE USER | 允许用户使用CREATE USER，DROP USER，RENAME USER和REVOKE ALL PRIVILEGES |
+        | PROCESS | 允许用户使用SHOW PROCESSLIST语句查看所有进程 |
+        | RELOAD | 允许用户使用FLUSH操作 |
+        | ALTER | 允许用户使用ALTER TABLE语句 |
+        | INDEX | 允许用户创建或删除索引 |
+        | CREATE | 允许用户创建数据库和表 |
+        | DROP | 允许用户删除数据库，表和视图 |
+        | DELETE | 允许用户使用DELETE |    
+        | INSERT | 允许用户使用INSERT语句 |
+        | SELECT | 允许用户使用SELECT语句 |
+        | UPDATE | 允许用户使用UPDATE语句 |
 
 5. #### Reids
 
