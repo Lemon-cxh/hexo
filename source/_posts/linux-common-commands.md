@@ -99,6 +99,11 @@ description: 运维时Linux，MySQL的一些常用命令
         show engine innodb status;
         ```
 
+    - 创建用户
+      ```bash
+      CREATE USER '帐号'@'主机' IDENTIFIED BY '密码';
+      ```
+
     - 赋予用户权限
         ```bash
         GRANT SELECT, UPDATE ON `库名`.* TO 'user'@'%';
@@ -106,6 +111,10 @@ description: 运维时Linux，MySQL的一些常用命令
         刷新权限
         ```bash
         FLUSH PRIVILEGES;
+        ```
+        查询用户权限
+        ```bash
+        SHOW GRANTS FOR 'user'@'%';
         ```
         常用权限:
         |权限|说明|
