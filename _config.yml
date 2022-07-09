@@ -5,7 +5,7 @@
 # Site
 title: 三月柳絮四月雨
 subtitle:
-description: 要做一个不动声色的大人了<br/>不准情绪化<br/>不准偷偷想念<br/>不准回头看
+description: 我年华虚度，空有一身疲惫
 keywords: 三月柳絮四月雨,Java,Spring,后端
 author: 三月柳絮四月雨
 language: zh-CN
@@ -44,7 +44,7 @@ highlight:
   line_number: true
   auto_detect: false
   tab_replace:
-  
+
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
@@ -53,7 +53,7 @@ index_generator:
   path: ''
   per_page: 10
   order_by: -date
-  
+
 # Category & Tag
 default_category: uncategorized
 category_map:
@@ -74,19 +74,16 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: next-reloaded
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  -
-    type: git
+  - type: git
     repo: https://github.com/Lemon-cxh/Lemon-cxh.github.io.git
     branch:
     message:
-  -
-    type: leancloud_counter_security_sync
-
+  - type: leancloud_counter_security_sync
 
 search:
   path: search.xml
@@ -96,22 +93,22 @@ search:
 
 # 字数统计和阅读时长
 symbols_count_time:
-   #文章内是否显示
-    symbols: true
-    time: true
-    # 网页底部是否显示
-    total_symbols: false
-    total_time: false
+  #文章内是否显示
+  symbols: true
+  time: true
+  # 网页底部是否显示
+  total_symbols: false
+  total_time: false
 
 leancloud_counter_security:
-    enable_sync: true
-    app_id: 3m9US7M2rX3qHENaTlCUmrad-gzGzoHsz
-    app_key: Y32s7s17bsYNYTOuGmBxgqPf
-    server_url: https://leancloud.cn
-    username: Lemon
-    password: lemon...
+  enable_sync: true
+  app_id: 3m9US7M2rX3qHENaTlCUmrad-gzGzoHsz
+  app_key: Y32s7s17bsYNYTOuGmBxgqPf
+  server_url: https://leancloud.cn
+  username: Lemon
+  password: lemon...
 
 sitemap:
-    path: sitemap.xml
+  path: sitemap.xml
 baidusitemap:
   path: baidusitemap.xml
