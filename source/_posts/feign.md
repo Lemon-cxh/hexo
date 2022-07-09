@@ -90,6 +90,8 @@ description: Feign来调用Get请求,参数为POJO类时需要添加@SpringQuery
 
 5. ### Feign请求时携带原请求头参数——请求ID
 
+    > 当你的feign开启了hystrix功能，如果开启了，需要把hystrix的策略进行修改，默认是 THREAD 的，这个级别时ThreadLocal是空的
+    
     application配置文件
     ```yml
     hystrix:
