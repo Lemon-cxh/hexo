@@ -83,7 +83,6 @@ deploy:
     repo: https://github.com/Lemon-cxh/Lemon-cxh.github.io.git
     branch:
     message:
-  - type: leancloud_counter_security_sync
 
 search:
   path: search.xml
@@ -91,17 +90,8 @@ search:
   format: html
   limit: 10000
 
-# 字数统计和阅读时长
-symbols_count_time:
-  #文章内是否显示
-  symbols: true
-  time: true
-  # 网页底部是否显示
-  total_symbols: false
-  total_time: false
-
 leancloud_counter_security:
-  enable_sync: true
+  enable_sync: false
   app_id: 3m9US7M2rX3qHENaTlCUmrad-gzGzoHsz
   app_key: Y32s7s17bsYNYTOuGmBxgqPf
   server_url: https://leancloud.cn
