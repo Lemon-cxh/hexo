@@ -16,13 +16,12 @@ description: 常用软件工具以及IDEA和VSCode插件
 - [uTools](https://u.tools/):生产力工具集，集成了Everything
 - [PotPlayer](https://potplayer.daum.net/?lang=zh_CN):播放视频软件
 - [Honeyview](https://www.bandisoft.com/honeyview/):图片查看
-- [Bandizip](https://www.bandisoft.com/bandizip/):解压工具
-- [Revo Uninstaller Pro](https://www.revouninstaller.com/products/revo-uninstaller-pro/):卸载软件工具
+- [7zip](https://www.7-zip.org/):解压工具
+- [Geek uninstaller](https://geekuninstaller.com/)):卸载软件工具
 - [Dism++](http://www.chuyu.me/zh-Hans/index.html):Windows实用工具
 - [RevokeMsgPatcher](https://github.com/huiyadanli/RevokeMsgPatcher):微信/QQ/TIM消息防撤回
 - [FinalShell](http://www.hostbuf.com/):SSH工具
-- [安卓投屏](https://lsdy.top/aztp):摸鱼工具，安卓投屏
-- [PanDownload](https://pandownload.com/):网盘下载工具
+
 
 ##### Chrome 扩展程序
 - [Adblock Plus - 免费的广告拦截器](https://chrome.google.com/webstore/detail/adblock-plus-free-ad-bloc/cfhdojbkjhnklbpkdaibdccddilifddb)
