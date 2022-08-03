@@ -31,7 +31,7 @@ custom_file_path:
   #bodyEnd: source/_data/body-end.swig
   #variable: source/_data/variables.styl
   #mixin: source/_data/mixins.styl
-  #style: source/_data/styles.styl
+  style: source/_data/styles.styl
 
 # ---------------------------------------------------------------
 # Site Information Settings
@@ -119,6 +119,7 @@ menu:
   tags: /tags/ || tags
   categories: /categories/ || th
   archives: /archives/ || archive
+  links: /links/ || link
   #schedule: /schedule/ || calendar
   #sitemap: /sitemap.xml || sitemap
   #commonweal: /404/ || heartbeat
@@ -200,8 +201,6 @@ links_settings:
 
 links:
   #Title: http://yoursite.com
-  鼠鼠在碎觉: https://www.sszsj.cc
-  ncc: https://www.zqcnc.cn/
 
 # Table of Contents in the Sidebar
 # Front-matter variable (unsupport wrap expand_all).
@@ -981,3 +980,14 @@ vendors:
 css: css
 js: js
 images: images
+
+# 自定义的友链
+customizeLinks:
+  - nickname: 鼠鼠在碎觉
+    site: https://www.sszsj.cc
+    info: 我是不慎落入世界的一滴水墨
+    avatar: https://tmx.fishpi.cn/image/head.jpg
+  - nickname: ncc
+    site: https://www.zqcnc.cn/
+    info: keep trying!
+    avatar: https://www.zqcnc.cn/favicon.ico
