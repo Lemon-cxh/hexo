@@ -33,8 +33,6 @@ public void doFilter(ServletRequest request, ServletResponse response, FilterCha
 
 由于一个Filter只影响下游的Filter和Servlet，所以每个Filter的调用顺序是非常重要的。
 
----
-
 ##### DelegatingFilterProxy 委托过滤代理
 
 Spring提供了一个名为DelegatingFilterProxy的Filter实现，允许在Servlet容器的生命周期和Spring的ApplicationContext之间建立桥梁。Servlet容器允许使用自己的标准来注册过滤器，但它不知道Spring定义的Bean。DelegatingFilterProxy可以通过标准的Servlet容器机制来注册，但将所有工作委托给实现Filter的Spring Bean。
@@ -47,15 +45,11 @@ DelegatingFilterProxy从ApplicationContext中查找Bean Filter0，然后调用Be
 
 DelegatingFilterProxy的另一个好处是，它允许延迟查找Filter Bean实例。这一点很重要，因为容器需要在容器启动之前注册Filter实例。然而，Spring通常使用ContextLoaderListener来加载Spring Bean，直到需要注册Filter实例之后Spring才会完成。
 
----
-
 ##### FilterChainProxy 过滤器链代理
 
 Spring Security的Servlet支持包含在FilterChainProxy中。FilterChainProxy是由Spring Security提供的一个特殊的Filter，它允许通过SecurityFilterChain委托许多Filter实例。由于FilterChainProxy是一个Bean，它通常被包装在DelegatingFilterProxy中。
 
 ![filterchainproxy](spring-security/filterchainproxy.png)
-
----
 
 ##### SecurityFilterChain
 
@@ -72,8 +66,6 @@ SecurityFilterChain中的Security Filters通常是Bean，但它们是通过Filte
 ![multi-securityfilterchain](spring-security/multi-securityfilterchain.png)
 
 在多安全过滤链图中，FilterChainProxy决定应该使用哪个安全过滤链。只有第一个匹配的SecurityFilterChain 0才会被调用。假设没有其他的SecurityFilterChain实例与之匹配，就会调用SecurityFilterChain n。
-
----
 
 ##### SecurityFilter
 
@@ -112,8 +104,6 @@ SecurityFilter是通过SecurityFilterChain API插入FilterChainProxy中的。过
 - ExceptionTranslationFilter：可以用于捕获FilterChain上所有的异常，但只处理AccessDeniedException和AuthenticationException异常
 - FilterSecurityInterceptor：对 web资源 进行一些安全保护操作
 - SwitchUserFilter：主要用来作用户切换
-
----
 
 ##### 处理 Security 异常
 
@@ -242,6 +232,76 @@ AbstractAuthenticationProcessingFilter被用作验证用户凭证的基本过滤
     - RememberMeServices.loginSuccess被调用。如果 RememberMeServices 未配置，则为空。
     - ApplicationEventPublisher发布一个InteractiveAuthenticationSuccessEvent。
     - AuthenticationSuccessHandler被调用。
+
+---
+
+#### Spring Security 授权架构
+
+##### Authorities
+
+所有的 Authentication 实现都存储了 GrantedAuthority 列表. 这些代表已授予主体的权限. GrantedAuthority 对象由 AuthenticationManager 插入 Authentication 对象,并在以后做出授权决策时由 AccessDecisionManager 读取.
+
+GrantedAuthority 接口只有一个方法：
+```java
+String getAuthority();
+```
+此方法使 AccessDecisionManager 可以获取 GrantedAuthority 的精确 String 表示形式. 通过以字符串形式返回,大多数 AccessDecisionManager 都可以轻松地读取 GrantedAuthority. 如果 GrantedAuthority 无法精确地表示为 String,则 GrantedAuthority 被视为 "complex" ,并且 getAuthority() 必须返回 null.
+"complex" GrantedAuthority的 示例将是一种实现,该实现存储适用于不同客户帐号的一系列操作和权限阈值. 将复杂的 GrantedAuthority 表示为 String 会非常困难,因此 getAuthority() 方法应返回 null. 这将向任何 AccessDecisionManager 指示它将需要特别支持 GrantedAuthority 实现,以便理解其内容.
+Spring Security 包含一个具体的 GrantedAuthority 实现,即 SimpleGrantedAuthority. 这允许将任何用户指定的 String 转换为 GrantedAuthority. 安全体系结构中包含的所有 AuthenticationProvider 都使用 SimpleGrantedAuthority 来填充 Authentication 对象.
+
+##### AuthorizationManager
+
+AuthorizationManager 取代了 AccessDecisionManager 和 AccessDecisionVoter。
+AuthorizationManagers被AuthorizationFilter调用，负责做出最终的访问控制决策。该接口包含两个方法
+```java
+AuthorizationDecision check(Supplier<Authentication> authentication, Object secureObject);
+
+default AuthorizationDecision verify(Supplier<Authentication> authentication, Object secureObject)
+        throws AccessDeniedException {
+    // ...
+}
+```
+AuthorizationManager的check方法被传递给它所需要的所有相关信息，以便做出授权决定。特别是，传递安全对象使那些包含在实际安全对象调用中的参数能够被检查到。例如，让我们假设安全对象是一个MethodInvocation。查询 MethodInvocation 的任何客户参数是很容易的，然后在 AuthorizationManager 中实现某种安全逻辑以确保委托人被允许对该客户进行操作。如果访问被授予，实现应返回正的 AuthorizationDecision，如果访问被拒绝，应返回负的 AuthorizationDecision，如果不作出决定，则返回空的 AuthorizationDecision。
+
+verify调用check，随后在出现负的授权决定时抛出AccessDeniedException。
+
+##### 基于代理的AuthorizationManager实现
+
+虽然用户可以实现他们自己的AuthorizationManager来控制授权的所有方面，但Spring Security提供了一个委托的AuthorizationManager，可以与个别的AuthorizationManagers协作。
+
+RequestMatcherDelegatingAuthorizationManager将把请求与最合适的Delegate AuthorizationManager相匹配。对于方法安全，你可以使用AuthorizationManagerBeforeMethodInterceptor和AuthorizationManagerAfterMethodInterceptor。
+AuthorizationManager的实现类：
+![](spring-security/authorizationhierarchy.png)
+
+- AuthorityAuthorizationManager
+
+    Spring Security提供的最常见的AuthorizationManager是AuthorizationManager。它被配置为在当前认证中寻找一组给定的授权。如果认证包含任何配置的授权，它将返回正面的AuthorizationDecision。否则，它将返回一个负面的授权决定。
+
+- AuthenticatedAuthorizationManager
+
+    另一个管理器是AuthenticatedAuthorizationManager。它可以用来区分匿名、完全认证和记住我认证的用户。许多网站在Remember-me认证下允许某些有限的访问，但要求用户通过登录来确认他们的身份以获得完整的访问。
+
+- 自定义 AuthorizationManager
+
+    很明显，你也可以实现一个自定义的AuthorizationManager，你可以把你想要的任何访问控制逻辑放在里面。它可能是针对你的应用程序的（与业务逻辑有关），也可能实现一些安全管理逻辑。例如，你可以创建一个可以查询Open Policy Agent或你自己的授权数据库的实现。
+
+##### 分层的角色
+
+使用角色层次结构允许你配置哪些角色（或权限）应该包括其他人。Spring Security的RoleVoter的一个扩展版本，RoleHierarchyVoter，被配置了一个RoleHierarchy，它从其中获得了用户被分配的所有 "可到达的授权"。一个典型的配置可能看起来像这样。
+
+```java
+@Bean
+AccessDecisionVoter hierarchyVoter() {
+    RoleHierarchy hierarchy = new RoleHierarchyImpl();
+    hierarchy.setHierarchy("ROLE_ADMIN > ROLE_STAFF\n" +
+            "ROLE_STAFF > ROLE_USER\n" +
+            "ROLE_USER > ROLE_GUEST");
+    return new RoleHierarchyVoter(hierarchy);
+}
+```
+在这里，我们在一个层次结构中有四个角色 ROLE_ADMIN ⇒ ROLE_STAFF ⇒ ROLE_USER ⇒ ROLE_GUEST。一个被认证为ROLE_ADMIN的用户，当安全约束被评估为适应调用上述RoleHierarchyVoter的AuthorizationManager时，将表现得好像他们拥有所有四个角色。>符号可以被认为是 "包括 "的意思。
+
+---
 
 #### Spring Security 基本使用
 
