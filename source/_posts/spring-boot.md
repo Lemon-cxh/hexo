@@ -296,6 +296,27 @@ description: Spring Boot基础知识
       - fixedRate: 无论上一次定时任务有没有执行完成，两次任务之间的时间间隔
       - cron: 使用cron表达式来指定任务计划
 
+    3. ###### 重试机制
+    
+    - `@EnableRetry`
+    添加在配置类或启动类上，启用重试，需要添加 spring-retry 依赖
+
+    - `@Retryable`
+    在需要重试的方法上添加此注解，方法不能有返回值
+      - maxAttempts: 最大重试次数
+      - value: 抛出指定异常才会重试
+      - include: 和value一样，默认为空，当exclude也为空时，所有异常都重试
+      - exclude: 指定不处理的异常，默认空，当include也为空时，所有异常都重试
+      - recover: 此类中用于恢复的方法的名称
+      - backoff: 重试等待策略
+        - value: 重试之间间隔时间
+        - delay: 重试之间的等待时间
+        - multiplier: 指定延迟倍数
+
+
+    - `@Recover`
+    标记方法为一个重试方法的补偿方法，需要和标记 @Retryable 的方法在一个类中
+
 4. ###### 事件和监听器
     监听器在不同阶段都会监听相应的事件，当事件触发时，对应事件的监听器就会被通知。
     事件类需要继承 ApplicationEvent:
