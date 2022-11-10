@@ -10,6 +10,7 @@ description: Feign来调用Get请求,参数为POJO类时需要添加@SpringQuery
 ---
 
 > Feign 来调用 Get 请求,参数为 POJO 类时需要添加 `@SpringQueryMap` 注解，因此 Spring Cloud 版本从 Finchley 升级到 Greenwich
+> 注意`@SpringQueryMap` 注解对于 POJO 类中的 Date、LocalDate、LocalDateTime字段无法按照 @JsonFormat 的格式进行序列化
 
 1. ### 服务启动失败，报错已经定义了具有该名称的Bean
 
