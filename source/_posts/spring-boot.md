@@ -28,7 +28,7 @@ description: Spring Boot基础知识
 
     - `@Configuration`
     
-        @Configuration标注在类上，代表这是一个Java配置文件，用来配置Spring容器(应用上下文)。
+        @Configuration注解修饰的类，会被spring通过cglib做增强处理，通过cglib会生成一个代理对象，代理会拦截所有被@Bean注解修饰的方法，可以确保一些bean是单例的
 
     - `@Bean`
 
@@ -37,11 +37,32 @@ description: Spring Boot基础知识
     - `@ComponentScan`
     
         @ComponentScan从定义的扫描路径中找出标识了需要装配的类自动装配到Bean容器中。默认扫描当前包和其子包下的路径。
+        可以通过value、basePackages、basePackageClasses 这几个参数来配置包的扫描范围。指定包名的方式配置扫描范围存在隐患，包名被重命名之后，会导致扫描实现，所以可以在需要扫描的包中可以创建一个标记的接口或者类，作为basePackageClasses的值，通过这个来控制包的扫描范围。
 
     - `@Component`
     
         @Component，标注在类上，标明这个类需要被扫描装配到Bean容器中。
         @Component是个通用注解，还可以针对不同的使用场景使用@Repository、 @Service、@Controller注解。
+    
+    - `@Import`
+
+        可以用来批量导入任何普通的组件、配置类，将这些类中定义的所有bean注册到容器中。可以单独导入第三方jar包或者其他模块中的中的一些类。
+    
+    - `@Scope`
+
+        用来定义bean 的作用域。
+    
+    - `@DependsOn`
+
+        用来指定当前bean依赖的bean，可以确保在创建当前bean之前，先将依赖的bean创建好。
+    
+    - `@ImportResource`
+
+        标注在配置类上，用来引入bean定义的配置文件
+    
+    - `@Lazy`
+
+        让bean延迟初始化。
     
 
 3. ###### 条件装配Bean
@@ -60,6 +81,10 @@ description: Spring Boot基础知识
     
         首先根据类型找到对应的Bean，如果对应类型的Bean不是唯一的，那么它会根据其属性名称和Bean的名称进行匹配。
         @Autowired是一个默认必须找到对应Bean的注解，如果不能确定其标注属性一定会存在并且允许这个被标注的属性为null，那么可以配置属性required为false。
+    
+    - `@Resource`
+
+        首先通过名称找，然后通过类型找
     
     - `@Primary`
     
@@ -102,6 +127,14 @@ description: Spring Boot基础知识
 
     ![生命周期](life-cycle.png)
 
+    Spring 中的循环依赖：
+    Spring 使用三级缓存来处理循环依赖：
+       - singletonObjects：一级缓存，用来存放已经创建好的单例Bean
+       - arlySingletonObjects：二级缓存，用来存放已经实例化但还没初始化的Bean(代理对象)
+       - singletonFactories：三级缓存，用来存放创建Bean的ObjectFactory，可以在需要时生成代理对象或普通对象
+    
+    为什么有第三层：如果要使用二级缓存解决循环依赖，意味着Bean在构造完后就创建代理对象。Spring结合AOP跟Bean的生命周期，是在Bean创建完全之后通过AnnotationAwareAspectJAutoProxyCreator这个后置处理器来完成的，让Bean在生命周期的最后一步完成代理而不是在实例化后就立马完成代理。
+
 6. ###### Bean的作用域
 
     @Scope
@@ -119,6 +152,10 @@ description: Spring Boot基础知识
     
         通过@Value("${datasource.url}")注解，使用\${...}占位符读取配置在属性文件的内容。还可以使用Spring EL表达式(#{...})。
 
+    - `@RefreshScope`
+
+        动态刷新@Value的值。@Scope中proxyMode为TARGET_CLASS的时候，会给当前创建的bean通过cglib生成一个代理对象，通过这个代理来实现@Value动态刷新的效果
+
     - `@ConfigurationProperties`
 
         注解中配置的字符串与POJO的属性名称组成属性的全限定名去配置文件里查找，这样就能将对应的属性读入到POJO当中。
@@ -128,6 +165,10 @@ description: Spring Boot基础知识
         定义属性文件，把它加载到Spring的上下文中。`value`属性可以配置多个配置文件，使用`classpath:`前缀，意味着去类文件路径下找到属性文件。
 
 ##### 面向切面编程(Aspect Oriented Programming,AOP)
+
+> Spring 的 AOP 主要由jdk动态代理、cglib代理实现
+ - jdk动态代理：只能为接口创建代理对象，创建出来的代理都是java.lang.reflect.Proxy的子类
+ - cglib代理：cglib为类创建代理的过程，实际上是通过继承来实现的。生成对应的子类的二进制并使用ClassLoader装载, 生成Class对象再缓存
 
 1. ###### AOP术语
 
@@ -284,6 +325,7 @@ description: Spring Boot基础知识
 
     - `@Async`
       将方法标记为异步，当此方法被调用时，会异步执行，也就是新开一个线程执行，不是在当前线程执行
+      若需取异步执行结果，方法返回值必须为Future类型，使用spring提供的静态方法org.springframework.scheduling.annotation.AsyncResult#forValue创建返回值
     
     2. ###### 定时任务
     
@@ -336,12 +378,13 @@ description: Spring Boot基础知识
         public void onApplicationEvent(TestEvent event) {}
     }
     ```
-    监听器或者添加 @EventListener 注解：(若监听方法有返回值，那将会把这个返回值当作事件源，一直发送下去，直到返回void或者null停止)
+    监听器或者添加 @EventListener 注解
+    > 若监听方法有返回值，那将会把这个返回值当作事件源，一直发送下去，直到返回void或者null停止
+    > 可以在标注@EventListener的方法上面使用@Order(顺序值)注解来标注顺序
     ```java
-     @EventListener(TestEvent.class)
-    public void onTestEvent(TestEvent event) {
-        
-    }
+    @EventListener(TestEvent.class)
+    @Order(1)
+    public void onTestEvent(TestEvent event) {}
     ```
     发布事件
     ```java
@@ -354,3 +397,51 @@ description: Spring Boot基础知识
     ```
     > @EventListener 注解可以用在接口或者父类上
     > @EventListener存在漏事件的现象，但是ApplicationListener能监听到所有的相关事件
+
+5. ###### 缓存
+
+    - `@EnableCaching`
+
+        启用缓存功能
+
+    - `@Cacheable`
+
+        方法被调用后将其返回值缓存起来，以保证下次利用同样的参数来执行该方法时可以直接从缓存中获取结果，而不需要再次执行该方法。
+
+        - value：指定Cache名称。可以将Cache想象为一个HashMap，系统中可以有很多个Cache，每个Cache有一个名字，你需要将方法的返回值放在哪个缓存中，需要通过缓存的名称来指定。
+        - key：自定义key。key属性支持SpEL表达式；当我们没有指定该属性时，Spring将使用默认策略生成key。`org.springframework.cache.interceptor.SimpleKeyGenerator`
+        - condition：控制缓存的使用条件。
+        - unless：控制是否需要将结果丢到缓存中
+
+    - `@CachePut`
+
+        方法每次都会被调用，然后方法执行完毕之后，会将方法结果丢到缓存中。 属性和`@Cacheable`相同
+
+    - `@CacheEvict`
+
+        方法被调用的时候，会清除指定的缓存
+
+        - condition：注解生效的条件，值为spel表达式
+        - allEntries：是否清理 cacheNames 指定的缓存中的所有缓存信息。可以将一个cache想象为一个HashMap，当 allEntries 为true的时候，相当于HashMap.clear()
+        - beforeInvocation：是否在方法执行前执行清除操作，否则方法执行成功之后执行
+
+    - `@Caching`
+
+        当在类上或者同一个方法上同时使用@Cacheable、@CachePut和@CacheEvic这几个注解中的多个的时候，此时可以使用@Caching这个注解来实现
+
+    - `@CacheConfig`
+
+        这个注解标注在类上，可以将其他几个缓存注解的公共参数给提取出来放在@CacheConfig。这些注解中也可以指定属性的值对@CacheConfig中的属性值进行覆盖
+
+6. ###### 声明式事务
+
+    - `@EnableTransactionManagement`
+    
+        启用Spring的注释驱动事务管理功能
+
+    - `@Transaction`
+    
+        放在接口上，那么接口的实现类中所有public都被spring自动加上事务
+        放在类上，那么当前类以及其下无限级子类中所有pubilc方法将被spring自动加上事务
+        注意：@Transaction只对public方法有效
+        参考[事务配置 @Transactional](/transactional)
