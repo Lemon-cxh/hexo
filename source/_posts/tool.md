@@ -4,12 +4,13 @@ date: 2020-02-29 14:41:18
 keywords: 开发,工具,软件
 categories: 
 - Tool
-tags:
+tags: 
 - Tool
 description: 常用软件工具以及IDEA和VSCode插件
----
+--- 
 ##### 日常工具
 
+- [Snipaste](https://zh.snipaste.com): 截图工具
 - [IDM](http://www.internetdownloadmanager.com/):下载工具
 - [CCleaner](https://www.ccleaner.com/):清理工具
 - [Everything](https://www.voidtools.com/zh-cn/):基于名称快速定位文件和文件夹
@@ -17,11 +18,24 @@ description: 常用软件工具以及IDEA和VSCode插件
 - [PotPlayer](https://potplayer.daum.net/?lang=zh_CN):播放视频软件
 - [Honeyview](https://www.bandisoft.com/honeyview/):图片查看
 - [7zip](https://www.7-zip.org/):解压工具
-- [Geek uninstaller](https://geekuninstaller.com/)):卸载软件工具
+- [Geek uninstaller](https://geekuninstaller.com/):卸载软件工具
 - [Dism++](http://www.chuyu.me/zh-Hans/index.html):Windows实用工具
-- [RevokeMsgPatcher](https://github.com/huiyadanli/RevokeMsgPatcher):微信/QQ/TIM消息防撤回
 - [FinalShell](http://www.hostbuf.com/):SSH工具
-
+- [Another Redis Desktop Manager](https://goanother.com/cn): Redis桌面管理客户端
+- [Clash for Windows](https://github.com/Fndroid/clash_for_windows_pkg): Clash
+- [RevokeMsgPatcher](https://github.com/huiyadanli/RevokeMsgPatcher):微信/QQ/TIM消息防撤回
+- [钉钉消息防撤回](https://www.wuleba.com/47.html): 钉钉消息防撤回补丁PC版
+- [JDK](https://www.oracle.com/java/technologies/downloads/): JDK
+- [IntelliJ IDEA](https://www.jetbrains.com/idea/download/#section=windows):IntelliJ IDEA
+- [jetbra](https://3.jetbra.in/): jetbra
+    > idea.vmoptions
+    > 设置用户名: -Duser.name=Dream.Chen
+    > 设置编码格式: -Dfile.encoding=UTF-8
+    > 设置用户目录修改配置目录，修改idea.properties文件 -Duser.home=
+- [Visual Studio Code](https://code.visualstudio.com/download):Visual Studio Code
+- [Node](https://nodejs.org/en/download): NodeJS
+- [Git](https://git-scm.com/downloads):Git
+- [Navicat Premium](https://www.navicat.com/en/download/navicat-premium): Navicat Premium
 
 ##### Chrome 扩展程序
 - [Adblock Plus - 免费的广告拦截器](https://chrome.google.com/webstore/detail/adblock-plus-free-ad-bloc/cfhdojbkjhnklbpkdaibdccddilifddb)
@@ -49,24 +63,25 @@ description: 常用软件工具以及IDEA和VSCode插件
 
 - [Alibaba Java Coding Guidelines](https://plugins.jetbrains.com/plugin/10046-alibaba-java-coding-guidelines):Alibaba编码准则
 - [SonarLint](https://plugins.jetbrains.com/plugin/7973-sonarlint):代码检测和修复质量问题
-- [Free MyBatis plugin](https://plugins.jetbrains.com/plugin/8321-free-mybatis-plugin):增强IDEA对MyBatis支持的插件
+- [MyBatisX](https://plugins.jetbrains.com/plugin/10119-mybatisx):增强IDEA对MyBatis支持的插件
 - [Maven Helper](https://plugins.jetbrains.com/plugin/7179-maven-helper):使用Maven必要的插件
-- [Lombok](https://plugins.jetbrains.com/plugin/6317-lombok):提供对Lombok注解的支持
 - [FindBugs-IDEA](https://plugins.jetbrains.com/plugin/3847-findbugs-idea):Java的缺陷检测工具
-- [RestfulToolkit](https://plugins.jetbrains.com/plugin/10292-restfultoolkit):一套 RESTful 服务开发辅助工具集
-- [Codota](https://plugins.jetbrains.com/plugin/7638-codota):在 IntelliJ 上完成 Java 和 Javascript 的人工智能代码
-- [activate-power-mode](https://plugins.jetbrains.com/plugin/8330-activate-power-mode/):打字特效
+- [RestfulHelper](https://plugins.jetbrains.com/plugin/17400-restfulhelper):一套 RESTful 服务开发辅助工具集
+- [GitToolBox](https://plugins.jetbrains.com/plugin/7499-gittoolbox):每行代码显示提交信息
+- [CodeGlance Pro](https://plugins.jetbrains.com/plugin/18824-codeglance-pro):右侧代码地图
+- [Codeium](https://plugins.jetbrains.com/plugin/20540-codeium):代码智能提示
 - [Nord](https://plugins.jetbrains.com/plugin/10321-nord):我喜欢的一款主题
 
 ##### VSCode plugins
 
 - `Chinese (Simplified) Language Pack for Visual Studio Code`:适用于VSCode的中文（简体）语言包
-- `Git History`:Git历史记录
+- `GitLens`:Git历史记录
+- `ESLint`:ESLint
 - `Auto Close Tag`:自动结束标签
 - `Auto Rename Tag`:自动修改标签名
 - `Rainbow Brackets`:彩虹色括号
-- `Power Mode`:打字特效
-- `Settings Sync`:VSCode配置同步
+- `Prettier`:代码格式化
 - `Vetur`:VSCode的Vue工具
 - `Comment Translate`:VSCode注释翻译
+- `Codeium`: AI 代码提示
 - `Nord`:我喜欢的一款主题
