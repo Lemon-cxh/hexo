@@ -992,10 +992,14 @@ customizeLinks:
     info: 我是不慎落入世界的一滴水墨
     avatar: https://tmx.fishpi.cn/image/head.jpg
   - nickname: ncc
-    site: https://www.zqcnc.cn/
+    site: https://www.zqcnc.cn
     info: keep trying!
     avatar: https://www.zqcnc.cn/favicon.ico
   - nickname: stillwarter
-    site: https://stillwarter.github.io/
+    site: https://stillwarter.github.io
     info: 林深时见猫
     avatar: https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100
+  - nickname: 十一
+    site: https://www.elevenblog.cn
+    info: 懒癌晚期，混吃等死者
+    avatar: https://file.fishpi.cn/2022/06/blob-fbff7c58.png?imageView2/1/w/210/h/210/interlace/0/q/100
