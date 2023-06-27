@@ -99,10 +99,11 @@ date: 2022-08-02 15:07:59
   1. 实现 WebMvcConfigurer，addResourceHandlers 方法定义静态资源处理器
   2. 配置内嵌 Tomcat 允许特殊字符 ConfigurableServletWebServerFactory.TomcatConnectorCustomizer
   3. 配置 MappingJackson2HttpMessageConverter，设置 ObjectMapper 的 JavaTimeModule，添加 LocalTime、LocalDate、LocalDateTime 相关的序列化、反序列化，设置  DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES 属性为 false
-  4. 配置 Converter 自定义 String 转 Date
-  5. 配置 GlobalExceptionHandler 全局异常拦截处理器
-  6. 定义切面，拦截 @NoRepeat 注解方法，实现防止重复请求(移到cache模块合适点?)
-  7. CurrentUserService：保存用户信息的 ThreadLocal
+  4. 自定义了RequestMappingHandlerMapping、RequestCondition，根据@ApiVersion来匹配对应的Handler
+  5. 配置 Converter 自定义 String 转 Date
+  6. 配置 GlobalExceptionHandler 全局异常拦截处理器
+  7. 定义切面，拦截 @NoRepeat 注解方法，实现防止重复请求(移到cache模块合适点?)
+  8. CurrentUserService：保存用户信息的 ThreadLocal
 
 - #### swagger: swagger文档
 
