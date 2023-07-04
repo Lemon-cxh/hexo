@@ -113,3 +113,20 @@ description: 开发过程中遇到的问题,以及处理方式
         set GLOBAL SQL_SLAVE_SKIP_COUNTER=1;
         slave start;
         ```
+
+6. ##### Redis
+
+   1. ###### 分布式锁的错误实现
+        听到同事说到业务加了Redis实现的分布式锁，但是没有偶尔没有生效，会重复添加两次数据。查看代码发现大致实现逻辑如下：
+        ```java
+        if (Boolean.TRUE.equals(redisTemplate.hasKey(key))) {
+            System.out.println("请勿重复提交");
+            return;
+        }
+        redisTemplate.opsForValue().set(key, "1", 3, TimeUnit.SECONDS);
+        ```
+        可以使用 hasKey() 方法来检查 Redis 中是否存在指定的键。但是，在实现分布式锁时，使用 hasKey() 方法并不能保证原子性操作。
+
+        考虑以下情况：线程 A 和线程 B 同时调用 hasKey() 方法检查 Redis 是否存在锁键。假设两个线程都发现键不存在，然后都尝试设置锁键。这样就会导致多个线程同时获取到了锁，破坏了锁的互斥性。
+
+        为了保证原子性操作，需要使用 Redis 的原子性指令，如 setIfAbsent() 命令。该命令在键不存在时设置键的值，并且保证了原子性操作
