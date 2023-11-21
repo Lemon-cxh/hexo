@@ -36,7 +36,20 @@ description: 开发过程中遇到的问题,以及处理方式
         ```
         Spring Cloud Gateway以及Spring Boot版本2.0.1.RELEASE更新为2.0.4.RELEASE。[issues](https://github.com/reactor/reactor-netty/issues/177)
 
-3. ##### Nginx
+3. ##### Spring MVC
+   
+    1. ##### Spring MVC 项目，请求返回404
+        Spring Boot 使用惯了，接到 Spring MVC 的反而懵了，在 Controller 中定义好了接口，但是访问就404。
+        想到 Spring MVC 的 `org.springframework.web.servlet.DispatcherServlet`,于是在 doDispatch() 方法中加上断点进行调试。发现 this.getHandler() 返回了 Null，即 HandlerMapping 为 Null。因为 Controller 中使用了 @RequestMapping 注解，而且项目是使用 XML 的配置方式，所以需要手动配置 RequestMappingHandlerMapping。(如果 Spring MVC 是旧版本也需要手动配置 HandlerAdapter，即对应的RequestMappingHandlerAdapter)
+        ```xml
+        	<!-- 配置HandlerMapping -->
+            <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+            <!-- 配置HandlerAdapter -->
+            <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
+        ```
+
+
+4. ##### Nginx
 
     1. ###### upstream sent no valid HTTP/1.0 header while reading response header from upstream
 
@@ -93,7 +106,7 @@ description: 开发过程中遇到的问题,以及处理方式
         - upstream timed out (110: Connection timed out) while reading response header from upstream
         - connect() failed (111: Connection refused) while connecting to upstream
 
-4. ##### 服务器
+5. ##### 服务器
 
     1. ###### Error: Network Error
         请求时不时提示net:ERR_CONNECTION_TIMED_OUT以及Error: Network Error。
@@ -102,7 +115,7 @@ description: 开发过程中遇到的问题,以及处理方式
         net.ipv4.tcp_tw_recycle = 0
         ```
 
-5. ##### MySQL
+6. ##### MySQL
 
     1. ###### Slave_SQL_Running: No
 
@@ -114,7 +127,7 @@ description: 开发过程中遇到的问题,以及处理方式
         slave start;
         ```
 
-6. ##### Redis
+7. ##### Redis
 
    1. ###### 分布式锁的错误实现
         听到同事说到业务加了Redis实现的分布式锁，但是没有偶尔没有生效，会重复添加两次数据。查看代码发现大致实现逻辑如下：

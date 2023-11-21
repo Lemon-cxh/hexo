@@ -11,22 +11,25 @@ description: 常用软件工具以及IDEA和VSCode插件
 ##### 日常工具
 
 - [Snipaste](https://zh.snipaste.com): 截图工具
+- [Obsidian](https://obsidian.md/download): 笔记工具。可选插件: Advanced Tables、Calendar、Easy Typing、Obsidian Git
 - [IDM](http://www.internetdownloadmanager.com/):下载工具
 - [CCleaner](https://www.ccleaner.com/):清理工具
 - [Everything](https://www.voidtools.com/zh-cn/):基于名称快速定位文件和文件夹
-- [uTools](https://u.tools/):生产力工具集，集成了Everything
+- [图拉丁吧工具箱](https://www.tbtool.cn/):硬件检测工具合集
 - [PotPlayer](https://potplayer.daum.net/?lang=zh_CN):播放视频软件
 - [Honeyview](https://www.bandisoft.com/honeyview/):图片查看
 - [7zip](https://www.7-zip.org/):解压工具
 - [Geek uninstaller](https://geekuninstaller.com/):卸载软件工具
 - [Dism++](http://www.chuyu.me/zh-Hans/index.html):Windows实用工具
-- [FinalShell](http://www.hostbuf.com/):SSH工具
-- [Another Redis Desktop Manager](https://goanother.com/cn): Redis桌面管理客户端
+户端
 - [Clash for Windows](https://github.com/Fndroid/clash_for_windows_pkg): Clash
 - [RevokeMsgPatcher](https://github.com/huiyadanli/RevokeMsgPatcher):微信/QQ/TIM消息防撤回
 - [钉钉消息防撤回](https://www.wuleba.com/47.html): 钉钉消息防撤回补丁PC版
+
+##### 开发工具
 - [JDK](https://www.oracle.com/java/technologies/downloads/): JDK
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/download/#section=windows):IntelliJ IDEA
+  > [知了 朝闻道，夕可眠矣。](https://zhile.io/)
 - [jetbra](https://3.jetbra.in/): jetbra
     > idea.vmoptions
     > 设置用户名: -Duser.name=Dream.Chen
@@ -36,6 +39,8 @@ description: 常用软件工具以及IDEA和VSCode插件
 - [Node](https://nodejs.org/en/download): NodeJS
 - [Git](https://git-scm.com/downloads):Git
 - [Navicat Premium](https://www.navicat.com/en/download/navicat-premium): Navicat Premium
+- [FinalShell](http://www.hostbuf.com/):SSH工具
+- [Another Redis Desktop Manager](https://goanother.com/cn): Redis桌面管理客
 
 ##### Chrome 扩展程序
 - [Adblock Plus - 免费的广告拦截器](https://chrome.google.com/webstore/detail/adblock-plus-free-ad-bloc/cfhdojbkjhnklbpkdaibdccddilifddb)
@@ -44,9 +49,7 @@ description: 常用软件工具以及IDEA和VSCode插件
 - [Google 翻译](https://chrome.google.com/webstore/detail/google-translate/aapbdbdomjkkjkaonfhkkikfgjllcleb)
 - [沙拉查词-聚合词典划词翻译](https://chrome.google.com/webstore/detail/%E6%B2%99%E6%8B%89%E6%9F%A5%E8%AF%8D-%E8%81%9A%E5%90%88%E8%AF%8D%E5%85%B8%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/cdonnmffkdaoajfknoeeecmchibpmkmg)
 - [JSON Viewer](https://chrome.google.com/webstore/detail/json-viewer/gbmdgpbipfallnflgajpaliibnhdgobh)
-- [Octotree](https://chrome.google.com/webstore/detail/octotree/bkhaagjahfmjljalopjnoealnfndnagc)
 - [smartUp手势](https://chrome.google.com/webstore/detail/smartup-gestures/bgjfekefhjemchdeigphccilhncnjldn)
-- [几枝](https://chrome.google.com/webstore/detail/%E5%87%A0%E6%9E%9D/hfohpokminpknagcgncibpacohagppjn)
 - [捕捉网页截图 - FireShot的](https://chrome.google.com/webstore/detail/take-webpage-screenshots/mcbpblocgmgfnpjjppndjkmgjaogfceg)
 - [卡片书签](https://chrome.google.com/webstore/detail/card-bookmarks/dkeildaicdhjaboibehldcancpkafnfl)
 - [Vue.js devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
@@ -85,3 +88,4 @@ description: 常用软件工具以及IDEA和VSCode插件
 - `Comment Translate`:VSCode注释翻译
 - `Codeium`: AI 代码提示
 - `Nord`:我喜欢的一款主题
+- `Markdown All in One`: Markdown 所需要的
