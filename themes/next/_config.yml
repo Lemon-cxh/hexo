@@ -115,10 +115,10 @@ darkmode: true
 # External url should start with http:// or https://
 menu:
   home: / || home
-  about: /about/ || user
   tags: /tags/ || tags
   categories: /categories/ || th
   archives: /archives/ || archive
+  about: /about/ || user
   links: /links/ || link
   #schedule: /schedule/ || calendar
   #sitemap: /sitemap.xml || sitemap
@@ -1011,3 +1011,7 @@ customizeLinks:
     site: https://114514gay.cf
     info: 长路漫漫，唯心作伴。
     avatar: https://114514gay.cf/_next/image?url=https%3A%2F%2Fipfs.4everland.xyz%2Fipfs%2Fbafkreids7xzyzcnv453mrg3wlmrri4hjzawi6e2byfdmd3ydltj5bz6yky&w=256&q=75
+  - nickname: 柴柴
+    site: https://chaichaisocute.top
+    info: 优秀的博客模板作者
+    avatar: https://chaichaiimage.oss-cn-hangzhou.aliyuncs.com/blogimg/chaichai.jpg
