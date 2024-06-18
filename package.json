@@ -9,6 +9,7 @@
     "babel-runtime": "^6.26.0",
     "cheerio": "^1.0.0-rc.12",
     "hexo": "^5.4.2",
+    "hexo-analytics": "^0.1.1",
     "hexo-cli": "^4.3.0",
     "hexo-deployer-git": "^3.0.0",
     "hexo-filter-auto-spacing": "^0.2.1",

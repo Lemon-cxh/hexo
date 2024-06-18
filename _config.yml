@@ -107,6 +107,15 @@ deploy:
   branch:
   message:
 
+# hexo-analytics
+analytics:
+    google_analytics:
+        enable: true
+        measurement_id: G-T7S9HBBHN5
+    microsoft_clarity:
+        enable: false
+        project_id: <your project id under Setting, Overview>
+
 # 以下为自行增加
 sitemap:
   path: sitemap.xml
