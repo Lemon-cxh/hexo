@@ -89,3 +89,4 @@ description: 常用软件工具以及IDEA和VSCode插件
 - `Codeium`: AI 代码提示
 - `Nord`:我喜欢的一款主题
 - `Markdown All in One`: Markdown 所需要的
+- `code-spell-checker`: 拼写检查
