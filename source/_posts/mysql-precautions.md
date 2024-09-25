@@ -196,6 +196,8 @@ description: SQL语句的注意事项
    
 9.  如果数据检索是最重要的，则你可以通过在INSERT和INTO之间添加关键字LOW_PRIORITY，指示MySQL降低INSERT语句的优先级，如`INSERT LOW_PRIORITY INTO`。
 
+10. 对于隐式转换的问题，需要注意MySQL的转换优先级。[表达式求值中的类型转换](https://mysql.net.cn/doc/refman/8.0/en/type-conversion.html)
+
 ---
 
 参考：
