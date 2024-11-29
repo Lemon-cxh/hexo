@@ -170,6 +170,11 @@ description: 开发过程中遇到的问题,以及处理方式
     interface IPageMixin {}
     ```
 
+##### hibernate-validator
+
+1. 对于@NotNull的返回信息为：**不能为null
+    在resources下创建对应的配置文件，更改默认信息即可。参考：[hibernate-validator](https://github.com/hibernate/hibernate-validator/blob/main/engine/src/main/resources/org/hibernate/validator/ValidationMessages_zh_CN.properties)
+
 ##### 其他
 
 1. 项目前端请求的时候会弹出登录的弹框，接口响应401，请求头中的`Authorization`的值是以`Basic`开头
