@@ -50,6 +50,17 @@ description: 开发过程中遇到的问题,以及处理方式
         <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
     ```
 
+##### Spring Cloud
+
+1. 配置中心，在项目启动时会从Nacos中拉取配置，但是在本地开发时，我们会在本地配置文件中配置一些配置项，此时就需要优先使用本地配置，避免被远程配置覆盖
+    解决办法：
+    ```yml
+    # 需要配置在Nacos中
+    spring:
+        cloud:
+            config:
+                override-none: true
+    ```
 
 ##### Nginx
 
@@ -127,6 +138,122 @@ description: 开发过程中遇到的问题,以及处理方式
     # 跳过一个复制错误
     set GLOBAL SQL_SLAVE_SKIP_COUNTER=1;
     slave start;
+    ```
+
+2. 通过中间件ProxySQL连接数据库时，出现超时错误：`9001 - Max connect timeout reached while reaching hostgroup 30 after 10000ms`
+
+    ```bash
+    # 登录proxysql管理界面
+    mysql -h 0.0.0.0 -u radmin -P 6032 -p --prompt 'ProxySQL Admin> '
+    # 检查节点状态
+    select * from runtime_mysql_servers;
+    ```
+    ProxySQL输出如下：
+    | hostgroup_id | hostname     | port | gtid_port | status       | weight | compression | max_connections | max_replication_lag | use_ssl | max_latency_ms | comment |
+    | ------------ | ------------ | ---- | --------- | ------------ | ------ | ----------- | --------------- | ------------------- | ------- | ------------- | ------- |
+    | 30           | 192.168.0.3  | 3307 | 0         | OFFLINE_HARD | 1      | 0           | 1000            | 0                   | 0       | 0              |         |
+    ```bash
+    # 重启MySQL服务
+    systemctl restart mysqld.service
+    # 登录MySQL, 启动组复制
+    START GROUP_REPLICATION;
+    # 检查节点状态
+     SELECT * FROM performance_schema.replication_group_members;
+    ```
+
+3. 组复制异常
+    1. `[ERROR] Slave SQL for channel 'group_replication_applier': Could not execute Delete_rows event on table ag_admin_v1.t_device_request; Can't find record in 't_device_request', Error_code: 1032; handler error HA_ERR_KEY_NOT_FOUND, Error_code: 1032`
+    2. `[ERROR] Plugin group_replication reported: 'There was an error when connecting to the donor server. Please check that group_replication_recovery channel credentials and all MEMBER_HOST column values of performance_schema.replication_group_members table are correct and DNS resolvable.'`
+    3. `[ERROR] Slave I/O for channel 'group_replication_recovery': Got fatal error 1236 from master when reading data from binary log: 'The slave is connecting using CHANGE MASTER TO MASTER_AUTO_POSITION = 1, but the master has purged binary logs containing GTIDs that the slave requires. Replicate the missing transactions from elsewhere, or provision a new slave from backup. Consider increasing the master's binary log expiration period. The GTID sets and the missing purged transactions are too long to print in this message. For more information, please see the master's error log or the manual for GTID_SUBTRACT.', Error_code: 1236`
+    4. `[ERROR] Plugin group_replication reported: 'Maximum number of retries when trying to connect to a donor reached. Aborting group replication recovery.'`
+    5. `[ERROR] Plugin group_replication reported: 'Fatal error during the Recovery process of Group Replication. The server will leave the group.'`
+   
+    组复制异常时如果不是由于数据不一致的问题：
+    ```bash
+    # 登录 MySQL 后执行
+    # 如果已自动启动则停止
+    STOP GROUP_REPLICATION;
+    # 清除二进制日志和 GTID 信息
+    RESET MASTER;
+    # 清除所有复制通道配置
+    RESET SLAVE ALL;
+    # 设置恢复通道用户和密码
+    CHANGE MASTER TO MASTER_USER = 'proxysql', MASTER_PASSWORD = '**' FOR CHANNEL 'group_replication_recovery';
+    # 使用主库的完整 GTID 集合, 查询主库：SHOW GLOBAL VARIABLES LIKE 'gtid_purged';
+    SET @@GLOBAL.gtid_purged = '103a0db1-c57a-11ec-936b-fa163e32f79d:1,1300ba13-c57a-11ec-8f10-fa163e9e68a7:1-6,3eda6e60-c578-11ec-a506-fa163eec93b8:1-12,bbbbbbbb-bbbb-cccc-dddd-eeeeeeeeeeee:1-79740623';
+    # 启动组复制
+    START GROUP_REPLICATION;
+    ```
+    ```bash
+    # 通过 GTID_SUBTRACT 计算缺失的GTID：
+    SELECT GTID_SUBTRACT('主库_gtid_set', '从库_gtid_set') AS missing_gtids;
+    ```
+    数据不一致时，因为使用mysqldump导入太慢，而且服务器硬盘空间不够，也无法使用xtrabackup，所以直接将MySQL正常库的/var/lib/mysql直接拷贝到故障数据库的/var/lib/mysql
+    ```bash
+     # 停止故障库 MySQL 服务
+    systemctl stop mysqld.service
+    # 在主库传输整个文件夹到故障服务器。-a：归档模式（保留权限、时间戳等）-z：压缩传输
+    rsync -avz --partial --progress /本地/文件夹 user@remote.server.com:/目标/路径/
+    # 故障服务器删除故障节点的 auto.cnf
+    rm -f /var/lib/mysql/auto.cnf
+    # 故障服务器删除组复制元数据文件
+    rm -f /var/lib/mysql/group_replication.*
+    # 故障服务器删除中继日志（如有残留）
+    rm -f /var/lib/mysql/relay-log.*
+    # 故障服务器启动 MySQL
+    systemctl start mysqld.service
+    ```
+
+4. MySQL服务CPU占用高
+   
+   ```SQL
+    # 显示所有正在运行的线程
+    SHOW FULL PROCESSLIST;
+
+    # 按执行时间排序（重点关注 Time 列）
+    SELECT * FROM information_schema.processlist 
+    WHERE COMMAND != 'Sleep' 
+    ORDER BY TIME DESC;
+
+    # 查询InnoDB状态
+    SHOW ENGINE INNODB STATUS; 
+    ```
+    先查询运行的进程，并没有发现耗时的SQL语句，所以查询了InnoDB的状态，发现有高频读取操作:
+    ```bash
+    0 queries inside InnoDB, 0 queries in queue
+    28 read views open inside InnoDB
+    Process ID=7241, Main thread ID=140240127776512, state: sleeping
+    Number of rows inserted 30673026, updated 93414, deleted 50400, read 50681533524
+    7.18 inserts/s, 1.37 updates/s, 0.00 deletes/s, 1348292.44 reads/s
+    ```
+    每秒的读取操作非常高（1348292.44 reads/s），这可能是一个关键点。高读取可能意味着存在大量索引查找或全表扫描，但没有看到耗时的SQL，可能这些查询执行得很快，但数量极大，导致CPU累积使用率高。
+    所以检查 innodb_buffer_pool_size 是否合理，确保缓冲池足够大（建议为物理内存的 70-80%）。
+    ```sql
+    SHOW VARIABLES LIKE 'innodb_buffer_pool_size';
+    ```
+    返回 `innodb_buffer_pool_size` 为 ​128MB，而服务器物理内存为 ​16GB。缓冲池过小会导致频繁的磁盘 I/O，数据无法缓存到内存，进而引发 CPU 负载升高，所以调整为物理内存的 ​70%~80%​，修改后CPU占用率直接降低。
+    ```bash
+    # 修改my.cnf配置文件
+    [mysqld]
+    innodb_buffer_pool_size = 12G
+    # 临时动态调整：
+    SET GLOBAL innodb_buffer_pool_size = 12884901888;
+    ```
+    还有一些配置暂未修改测试：
+    ```bash
+    # ​禁用自适应哈希索引AHI。（AHI 在高并发下可能导致热点索引争用，禁用后强制走 B+ 树，可能减少锁冲突。）
+    [mysqld]
+    innodb_adaptive_hash_index = 0
+    # 临时动态调整：
+    SET GLOBAL innodb_adaptive_hash_index = OFF;
+    # 调整 InnoDB 线程并发，建议值为 CPU 核心数 * 2。（限制并发线程数，减少资源争用。）
+    [mysqld]
+    innodb_thread_concurrency = 64
+
+    ```
+    由于没有启用慢查询日志，所以可以使用 Performance Schema监控 高频 SQL，再根据情况对SQL检查执行计划
+    ```sql
+    SELECT * FROM performance_schema.events_statements_summary_by_digest ORDER BY COUNT_STAR DESC LIMIT 10;
     ```
 
 ##### Redis
